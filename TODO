@@ -1,0 +1,2 @@
+Add to config/environments/production.rb:
+	config.action_mailer.default_url_options = { host: http://actual.server.name/default/path}
