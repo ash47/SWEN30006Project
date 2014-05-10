@@ -1,5 +1,7 @@
 ClubBiz::Application.routes.draw do
 
+  resources :clubs
+
   devise_for :users
   devise_scope :user do
     root :to => 'devise/registrations#new'
