@@ -3,9 +3,7 @@ ClubBiz::Application.routes.draw do
   resources :clubs
 
   devise_for :users
-  devise_scope :user do
-    root :to => 'devise/registrations#new'
-  end
+  root to: 'clubs#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
