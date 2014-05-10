@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140510032724) do
+ActiveRecord::Schema.define(version: 20140510063744) do
+
+  create_table "clubs", force: true do |t|
+    t.string   "name",                default: "",    null: false
+    t.text     "description"
+    t.string   "website"
+    t.integer  "uni_registration_id", default: -1,    null: false
+    t.boolean  "confirmed?",          default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "clubs", ["uni_registration_id"], name: "index_clubs_on_uni_registration_id", unique: true
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
