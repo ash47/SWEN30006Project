@@ -5,7 +5,7 @@ class CreateClubs < ActiveRecord::Migration
       t.text :description
       t.string :website
       t.integer :uni_registration_id, null: false, default: -1
-      t.boolean :is_confirmed, null: false, default: false
+      t.boolean :confirmed?, null: false, default: false
 
       t.timestamps
     end
