@@ -1,2 +1,4 @@
 Add to config/environments/production.rb:
 	config.action_mailer.default_url_options = { host: http://actual.server.name/default/path}
+
+Update User view such that names may be entered on registration.
