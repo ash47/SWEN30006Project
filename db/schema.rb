@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20140521131800) do
     t.text     "description"
     t.string   "website"
     t.integer  "uni_registration_id", default: -1,    null: false
-    t.boolean  "confirmed?",          default: false, null: false
+    t.boolean  "confirmed",           default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
