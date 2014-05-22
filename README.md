@@ -15,3 +15,6 @@ For more detail, please see http://nvie.com/posts/a-successful-git-branching-mod
 
 ###Read This Ben###
  - I stuffed up migrations -- this was before I had any idea what the hell I was doing. Please delete your db/development.sqlite3 (or what ever you called it) if you get tons of errrors, and re migrate the db
+
+###Creating admins###
+ - This is somewhat temporay, to become an admin, just navigate to `/become_admin`, and to stop being an admin, just go to `/remove_admin`

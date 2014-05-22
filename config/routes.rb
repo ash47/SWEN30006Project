@@ -5,7 +5,16 @@ ClubBiz::Application.routes.draw do
   devise_for :users
   root to: 'clubs#index'
 
+  # User joining a club
   get '/clubs/:id/join', to: 'clubs#join', as: 'join_club'
+
+  # DEBUG: ADD/REMOVE AN ADMIN
+  get '/become_admin', to: 'admin#become_admin', as: 'become_admin'
+  get '/remove_admin', to: 'admin#remove_admin', as: 'remove_admin'
+
+  # Admin stuff
+  get '/admin', to: 'admin#index', as: 'admin'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

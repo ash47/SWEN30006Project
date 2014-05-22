@@ -1,0 +1,11 @@
+<h1>Secret Admin Section</h1>
+
+<% if @uclubs.length > 0 %>
+  <P>Please verify the following clubs:</P>
+  <% @uclubs.each do |club| %>
+    <p><%= club.uni_registration_id %> - <%= club.confirmed %></p>
+  <% end %>
+<% else %>
+  <p>No clubs awaiting verification!</p>
+<% end %>
+
