@@ -8,7 +8,7 @@
       <th>Website</th>
       <th>Uni registration</th>
       <th>Is confirmed</th>
-      <% if @user_id %>
+      <% if user_signed_in? %>
         <th>Rank</th>
       <% end %>
       <th></th>
@@ -25,7 +25,7 @@
         <td><%= club.website %></td>
         <td><%= club.uni_registration_id %></td>
         <td><%= club.confirmed %></td>
-        <% if @user_id %>
+        <% if user_signed_in? %>
           <% membership = club.memberships.find_by(user_id: @user_id) %>
           <% if membership %>
             <td><%= club.memberships.find_by(user_id: @user_id).rank %></td>
@@ -41,7 +41,7 @@
   </tbody>
 </table>
 
-<% if @user %>
+<% if user_signed_in? %>
   <% @user.memberships.all.each do |m| %>
     <p><%= m.rank %></p>
   <% end %>

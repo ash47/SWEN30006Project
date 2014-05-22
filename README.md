@@ -11,3 +11,7 @@ deleting the branch:
 $ git branch -d feat/myfeature
 
 For more detail, please see http://nvie.com/posts/a-successful-git-branching-model/
+
+
+###Read This Ben###
+ - I stuffed up migrations -- this was before I had any idea what the hell I was doing. Please delete your db/development.sqlite3 (or what ever you called it) if you get tons of errrors, and re migrate the db
