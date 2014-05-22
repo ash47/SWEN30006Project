@@ -26,14 +26,17 @@
         <% if user_signed_in? %>
           <% membership = club.memberships.find_by(user_id: @user_id) %>
           <% if membership %>
-            <td><%= club.memberships.find_by(user_id: @user_id).rank %></td>
+            <% rank = club.memberships.find_by(user_id: @user_id).rank %>
+            <td><%= rank %></td>
           <% else %>
             <td>Not a member</td>
           <% end %>
         <% end %>
         <td><%= link_to 'Show', club %></td>
-        <td><%= link_to 'Edit', edit_club_path(club) %></td>
-        <td><%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if rank and rank == User.rank_admin %>
+          <td><%= link_to 'Edit', edit_club_path(club) %></td>
+          <td><%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
