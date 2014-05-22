@@ -25,6 +25,11 @@
   <%= @club.confirmed %>
 </p>
 
+<p>Our admins:</p>
+<% @admins.each do |admin| %>
+  <p><%= admin.id %> - <%= admin.full_name %></p>
+<% end %>
+
 <%= link_to 'Join', join_club_path(@club) %> |
 <%= link_to 'Edit', edit_club_path(@club) %> |
 <%= link_to 'Back', clubs_path %>
