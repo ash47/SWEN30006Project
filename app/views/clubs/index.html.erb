@@ -8,6 +8,9 @@
       <th>Website</th>
       <th>Uni registration</th>
       <th>Is confirmed</th>
+      <% if @user_id %>
+        <th>Rank</th>
+      <% end %>
       <th></th>
       <th></th>
       <th></th>
@@ -22,6 +25,14 @@
         <td><%= club.website %></td>
         <td><%= club.uni_registration_id %></td>
         <td><%= club.confirmed %></td>
+        <% if @user_id %>
+          <% membership = club.memberships.find_by(user_id: @user_id) %>
+          <% if membership %>
+            <td><%= club.memberships.find_by(user_id: @user_id).rank %></td>
+          <% else %>
+            <td>Not a member</td>
+          <% end %>
+        <% end %>
         <td><%= link_to 'Show', club %></td>
         <td><%= link_to 'Edit', edit_club_path(club) %></td>
         <td><%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -29,6 +40,12 @@
     <% end %>
   </tbody>
 </table>
+
+<% if @user %>
+  <% @user.memberships.all.each do |m| %>
+    <p><%= m.rank %></p>
+  <% end %>
+<% end %>
 
 <br>
 

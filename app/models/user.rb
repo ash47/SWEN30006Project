@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_and_belongs_to_many :clubs
+  has_many :memberships
+  has_many :clubs, through: :memberships
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -15,7 +16,16 @@ class User < ActiveRecord::Base
   								message: "must must be a valid email address"
   							}
   def full_name
-  	return first_name + " " + last_name  	
+  	return first_name + " " + last_name
   end
 
+  # Admin rank on clubs
+  def self.rank_admin
+    3
+  end
+
+  # User rank on clubs
+  def self.rank_member
+    1
+  end
 end

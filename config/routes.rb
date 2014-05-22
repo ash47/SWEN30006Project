@@ -4,6 +4,8 @@ ClubBiz::Application.routes.draw do
 
   devise_for :users
   root to: 'clubs#index'
+
+  get '/clubs/:id/join', to: 'clubs#join', as: 'join_club'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
