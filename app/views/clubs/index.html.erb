@@ -7,9 +7,8 @@
       <th>Description</th>
       <th>Website</th>
       <th>Uni registration</th>
-      <th>Is confirmed</th>
       <% if user_signed_in? %>
-        <th>Rank</th>
+        <th>Your Rank</th>
       <% end %>
       <th></th>
       <th></th>
@@ -24,7 +23,6 @@
         <td><%= club.description %></td>
         <td><%= club.website %></td>
         <td><%= club.uni_registration_id %></td>
-        <td><%= club.confirmed %></td>
         <% if user_signed_in? %>
           <% membership = club.memberships.find_by(user_id: @user_id) %>
           <% if membership %>
