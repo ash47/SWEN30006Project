@@ -8,6 +8,9 @@ ClubBiz::Application.routes.draw do
   # User joining a club
   get '/clubs/:id/join', to: 'clubs#join', as: 'join_club'
 
+  # Leaving a club
+  get '/clubs/:id/leave', to: 'clubs#leave', as: 'leave_club'
+
   # DEBUG: ADD/REMOVE AN ADMIN
   get '/become_admin', to: 'admin#become_admin', as: 'become_admin'
   get '/remove_admin', to: 'admin#remove_admin', as: 'remove_admin'

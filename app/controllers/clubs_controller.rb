@@ -1,6 +1,6 @@
 class ClubsController < ApplicationController
-  before_action :set_club, only: [:show, :edit, :update, :destroy, :join]
-  before_action :get_user, only: [:create, :join, :index]
+  before_action :set_club, only: [:show, :edit, :update, :destroy, :join, :leave]
+  before_action :get_user, only: [:create, :join, :index, :show, :leave]
 
   # GET /clubs
   # GET /clubs.json
@@ -18,6 +18,9 @@ class ClubsController < ApplicationController
   # GET /clubs/1.json
   def show
     @admins = @club.admins
+
+    @is_club_member = @user.memberships.exists?(:club_id => @club.id)
+    @is_club_admin = @user.memberships.exists?(:club_id => @club.id, :rank => User.rank_admin)
   end
 
   # GET /clubs/new
@@ -85,6 +88,22 @@ class ClubsController < ApplicationController
       @club.memberships.create(:user => @user, :rank => User.rank_member)
 
       redirect_to @club, notice: 'You have joined this club.'
+    end
+  end
+
+  # A user is trying to leave a club
+  def leave
+    # Attempt to grab their membership
+    membership = @club.memberships.find_by(user_id: current_user.id)
+    if membership
+      # Remove their membership
+      membership.delete
+
+      # User is already a member
+      redirect_to @club, notice: 'You have left this club.'
+    else
+      # User isn't a member to begin with
+      redirect_to @club, notice: 'You were never a member to begin with.'
     end
   end
 

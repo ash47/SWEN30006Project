@@ -1,9 +1,19 @@
 <h1>New club</h1>
 
 <% if user_signed_in? %>
-    <p>Use this page to register new clubs. The club must be registered with the university already. You need your club registration ID in order to register here. We will verify your registered email against the email registered with the university, once verified you can manage your club's page.</p>
-    <%= render 'form' %>
+  <p>Use this page to register new clubs. The club must be registered with the university already. You need your club registration ID in order to register here. We will verify your registered email against the email registered with the university, once verified you can manage your club's page.</p>
+  <%= form_for(@club) do |f| %>
+    <%= render template: 'clubs/form_error' %>
+
+    <div class="field">
+      <%= f.label :uni_registration_id %><br>
+      <%= f.text_field :uni_registration_id %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Verify" %>
+    </div>
+  <% end %>
 <% else %>
-    <p>Please sign in before trying to create a new club.</p>
+  <p>Please sign in before trying to create a new club.</p>
 <% end %>
 <%= link_to 'Back', clubs_path %>

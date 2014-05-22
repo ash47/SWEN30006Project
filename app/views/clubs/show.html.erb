@@ -15,16 +15,6 @@
   <%= @club.website %>
 </p>
 
-<p>
-  <strong>Uni registration:</strong>
-  <%= @club.uni_registration_id %>
-</p>
-
-<p>
-  <strong>Is confirmed:</strong>
-  <%= @club.confirmed %>
-</p>
-
 <p><strong>Member Count:</strong> <%= @club.memberships.count %></p>
 
 <p>Our admins:</p>
@@ -32,6 +22,12 @@
   <p><%= admin.id %> - <%= admin.full_name %></p>
 <% end %>
 
-<%= link_to 'Join', join_club_path(@club) %> |
-<%= link_to 'Edit', edit_club_path(@club) %> |
+<% if @is_club_member %>
+  <%= link_to 'Leave Club', leave_club_path(@club) %> |
+<% else %>
+  <%= link_to 'Join', join_club_path(@club) %> |
+<% end %>
+<% if @is_club_admin %>
+  <%= link_to 'Edit', edit_club_path(@club) %> |
+<% end %>
 <%= link_to 'Back', clubs_path %>
