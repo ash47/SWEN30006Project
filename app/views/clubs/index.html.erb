@@ -42,11 +42,24 @@
 </table>
 
 <% if user_signed_in? %>
-  <% @user.memberships.all.each do |m| %>
-    <p><%= m.rank %></p>
+  <% if @awaiting_verification.count > 0 %>
+    <p>These clubs of yours are not verified yet:</p>
+    <% @awaiting_verification.each do |club| %>
+      <p><%= club.uni_registration_id %></p>
+    <% end %>
+  <% end %>
+
+  <% if @memberships.count > 0 %>
+    <p>Clubs you are a member of:</p>
+    <% @memberships.each do |m| %>
+      <% club = m.club %>
+      <p><%= club.uni_registration_id %> - <%= club.name %></p>
+    <% end %>
+  <% else %>
+    <p>You are not a member of any clubs D:</p>
   <% end %>
 <% end %>
 
 <br>
 
-<%= link_to 'New Club', new_club_path %>
+<%= link_to 'Register Club', new_club_path %>

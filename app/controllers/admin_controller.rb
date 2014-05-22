@@ -1,9 +1,35 @@
 class AdminController < ApplicationController
   before_action :get_user, only: [:become_admin, :remove_admin]
   before_action :find_unverified_clubs, only: [:index]
+  before_action :get_club, only: [:verify]
 
   def index
 
+  end
+
+  # Verify a club
+  def verify
+    # Check if they submitted the form
+    if request.patch?
+      # Grab data
+      data = params.require(:club).permit(:name, :website)
+
+      # Ensure a name was entered
+      if not data.key?(:name) or data[:name] == ""
+        @error_message = "Please enter a club name"
+        return
+      end
+
+      # Copy data in
+      @club.name = data[:name]
+      @club.website = data[:website]
+      @club.confirmed = true
+
+      # Save and redirect
+      @club.save()
+
+      redirect_to admin_path, notice: 'Club was verified!'
+    end
   end
 
   def become_admin
@@ -43,5 +69,9 @@ class AdminController < ApplicationController
 
     def find_unverified_clubs
       @uclubs = Club.find(:all, :conditions => {:confirmed => false})
+    end
+
+    def get_club
+      @club = Club.find(params[:id])
     end
 end

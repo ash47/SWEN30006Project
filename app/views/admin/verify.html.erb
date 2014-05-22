@@ -1,0 +1,24 @@
+<h1>Fill out this form to verify</h1>
+
+<% if @error_message %>
+  <p style="color:red"><%= @error_message %></p>
+<% end %>
+
+<%= form_for @club, :url => verify_club_path(@club) do |f| %>
+  <div>
+    <strong>Uni registration</strong> <%= @club.uni_registration_id %><br>
+    <strong>Registering Email</strong> <%= @club.admins.first.email %>
+  </div><br>
+
+  <div class="field">
+    <%= f.label "Club Name" %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :website %><br>
+    <%= f.text_field :website %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Verify" %>
+  </div>
+<% end %>

@@ -3,7 +3,7 @@
 <% if @uclubs.length > 0 %>
   <P>Please verify the following clubs:</P>
   <% @uclubs.each do |club| %>
-    <p><%= club.uni_registration_id %> - <%= club.admins.first.email %></p>
+    <p><%= club.uni_registration_id %> - <%= club.admins.first.email %> | <%= link_to "Verify", verify_club_path(club) %></p>
   <% end %>
 <% else %>
   <p>No clubs awaiting verification!</p>

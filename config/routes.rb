@@ -14,6 +14,8 @@ ClubBiz::Application.routes.draw do
 
   # Admin stuff
   get '/admin', to: 'admin#index', as: 'admin'
+  get 'admin/verify/:id', to: 'admin#verify', as: 'verify_club'
+  patch 'admin/verify/:id', to: 'admin#verify'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

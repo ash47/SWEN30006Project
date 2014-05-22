@@ -5,8 +5,13 @@ class ClubsController < ApplicationController
   # GET /clubs
   # GET /clubs.json
   def index
-    # Grab all clubs
-    @clubs = Club.all
+    # Grab all confirmed clubs
+    @clubs = Club.find(:all, :conditions => {:confirmed => true})
+
+    if user_signed_in?
+      @memberships = @user.memberships.all
+      @awaiting_verification = @user.clubs.find(:all, :conditions => {:confirmed => false})
+    end
   end
 
   # GET /clubs/1
