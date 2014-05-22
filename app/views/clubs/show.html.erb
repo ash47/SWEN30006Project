@@ -25,6 +25,8 @@
   <%= @club.confirmed %>
 </p>
 
+<p><strong>Member Count:</strong> <%= @club.memberships.count %></p>
+
 <p>Our admins:</p>
 <% @admins.each do |admin| %>
   <p><%= admin.id %> - <%= admin.full_name %></p>

@@ -1,10 +1,17 @@
 class ApplicationController < ActionController::Base
 	before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_notifications, if: :user_signed_in?
 
   protected
 
 	def configure_permitted_parameters
   	devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :first_name, :last_name, :profile_name, :password, :password_confirm) }
+  end
+
+  def check_notifications
+    if current_user.admin
+      @admin_notifications = Club.find(:all, :conditions => {:confirmed => false}).count
+    end
   end
 
   # Prevent CSRF attacks by raising an exception.
