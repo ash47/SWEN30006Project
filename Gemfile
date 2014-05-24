@@ -18,6 +18,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use devise for user authentication
 gem 'devise'
 
+# Use simple_form for forms
+gem 'simple_form'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
