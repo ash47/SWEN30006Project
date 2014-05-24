@@ -17,17 +17,22 @@
 
 <p><strong>Member Count:</strong> <%= @club.memberships.count %></p>
 
+<% if @is_club_admin %>
+  <p><strong>You are an admin!</strong></p>
+<% end %>
+
 <p>Our admins:</p>
 <% @admins.each do |admin| %>
   <p><%= admin.id %> - <%= admin.full_name %></p>
 <% end %>
 
 <% if @is_club_member %>
-  <%= link_to 'Leave Club', leave_club_path(@club) %> |
+  <% if not @is_club_admin %>
+    <%= link_to 'Leave Club', leave_club_path(@club) %> |
+  <% else %>
+    <%= link_to 'Edit', edit_club_path(@club) %> |
+  <% end %>
 <% else %>
   <%= link_to 'Join', join_club_path(@club) %> |
-<% end %>
-<% if @is_club_admin %>
-  <%= link_to 'Edit', edit_club_path(@club) %> |
 <% end %>
 <%= link_to 'Back', clubs_path %>

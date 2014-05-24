@@ -24,9 +24,9 @@
         <td><%= club.website %></td>
         <td><%= club.uni_registration_id %></td>
         <% if user_signed_in? %>
-          <% membership = club.memberships.find_by(user_id: @user_id) %>
+          <% membership = club.memberships.find_by(user_id: @user.id) %>
           <% if membership %>
-            <% rank = club.memberships.find_by(user_id: @user_id).rank %>
+            <% rank = club.memberships.find_by(user_id: @user.id).rank %>
             <td><%= rank %></td>
           <% else %>
             <td>Not a member</td>
@@ -44,14 +44,14 @@
 
 <% if user_signed_in? %>
   <% if @awaiting_verification.count > 0 %>
-    <p>These clubs of yours are not verified yet:</p>
+    <strong>These clubs of yours are not verified yet:</strong>
     <% @awaiting_verification.each do |club| %>
       <p><%= club.uni_registration_id %></p>
     <% end %>
   <% end %>
 
   <% if @memberships.count > 0 %>
-    <p>Clubs you are a member of:</p>
+    <strong>Clubs you are a member of:</strong>
     <% @memberships.each do |m| %>
       <% club = m.club %>
       <p><%= club.uni_registration_id %> - <%= club.name %></p>
@@ -63,4 +63,6 @@
 
 <br>
 
-<%= link_to 'Register Club', new_club_path %>
+<% if user_signed_in? %>
+  <%= link_to 'Register Club', new_club_path %>
+<% end %>

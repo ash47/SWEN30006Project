@@ -1,6 +1,7 @@
 class ClubsController < ApplicationController
+  before_action :get_user, only: [:create, :join, :index, :show, :leave, :edit, :destroy]
   before_action :set_club, only: [:show, :edit, :update, :destroy, :join, :leave]
-  before_action :get_user, only: [:create, :join, :index, :show, :leave]
+  before_filter :must_be_admin, only: [:edit, :update, :destroy]
 
   # GET /clubs
   # GET /clubs.json
@@ -18,9 +19,6 @@ class ClubsController < ApplicationController
   # GET /clubs/1.json
   def show
     @admins = @club.admins
-
-    @is_club_member = @user.memberships.exists?(:club_id => @club.id)
-    @is_club_admin = @user.memberships.exists?(:club_id => @club.id, :rank => User.rank_admin)
   end
 
   # GET /clubs/new
@@ -111,6 +109,11 @@ class ClubsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_club
       @club = Club.find(params[:id])
+
+      if user_signed_in?
+        @is_club_member = @user.memberships.exists?(:club_id => @club.id)
+        @is_club_admin = @user.memberships.exists?(:club_id => @club.id, :rank => User.rank_admin)
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -120,9 +123,15 @@ class ClubsController < ApplicationController
 
     def get_user
       # Attempt to get user info
-      @user_id = current_user.try :id
-      if @user_id
-        @user = User.find(@user_id)
+      if user_signed_in?
+        @user = User.find(current_user.id)
+      end
+    end
+
+    def must_be_admin
+      if not @is_club_admin
+        redirect_to @club, notice: 'You need to be an admin to do this.'
+        return false
       end
     end
 end
