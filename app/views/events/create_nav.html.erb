@@ -1,0 +1,19 @@
+<p>
+<% if @stage == Event.stage_details  %>
+  <strong>Details</strong>
+<% else %>
+  <%= link_to 'Details', create_event_path(@club, Event.stage_details) %>
+<% end %>
+--&gt;
+<% if @stage == Event.stage_tickets  %>
+  <strong>Tickets</strong>
+<% else %>
+  <%= link_to 'Tickets', create_event_path(@club, Event.stage_tickets) %>
+<% end %>
+--&gt;
+<% if @stage == Event.stage_confirm  %>
+  <strong>Confirm</strong>
+<% else %>
+  <%= link_to 'Confirm', create_event_path(@club, Event.stage_confirm) %>
+<% end %>
+</p>

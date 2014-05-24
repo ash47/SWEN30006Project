@@ -19,6 +19,7 @@
 
 <% if @is_club_admin %>
   <p><strong>You are an admin!</strong></p>
+  <p><%= link_to 'Create Event', create_event_path(@club, Event.stage_details) %></p>
 <% end %>
 
 <p>Our admins:</p>
