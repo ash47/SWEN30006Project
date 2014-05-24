@@ -1,2 +1,17 @@
 <h2>details</h2>
 
+<%= form_tag(create_event_path(@club, Event.stage_tickets), method: "get") do %>
+  <%= label_tag(:name, "Event Title:") %><br>
+  <%= text_field_tag(:name) %>
+  <br>
+  <%= label_tag(:description, "Description:") %><br>
+  <%= text_field_tag(:description) %>
+  <br>
+  <%= label_tag(:date, "Date:") %><br>
+  <%= date_select(:date, :date) %>
+  <br>
+  <%= label_tag(:time, "Start Time:") %><br>
+  <%= time_select(:time, :time) %>
+  <br><br>
+  <%= submit_tag("Next") %>
+<% end %>
