@@ -18,6 +18,51 @@ class EventsController < ApplicationController
       # Stage is invalid, make it valid
       @stage = Event.stage_details
     end
+
+    # Check for submitted event title
+    if params[:event_title] and params[:event_title].length > 0
+      session[:event_title] = params[:event_title]
+    end
+
+    # Description
+    if params[:event_description] and params[:event_description].length > 0
+      session[:event_description] = params[:event_description]
+    end
+
+    # Date
+    if params[:event_date]
+      if params[:event_date]['date(1i)']
+        session[:event_year] = (params[:event_date]['date(1i)']).to_i
+      end
+
+      if params[:event_date]['date(2i)']
+        session[:event_month] = (params[:event_date]['date(2i)']).to_i
+      end
+
+      if params[:event_date]['date(3i)']
+        session[:event_day] = (params[:event_date]['date(3i)']).to_i
+      end
+    end
+
+    # Time
+    if params[:event_time]
+      if params[:event_time]['time(4i)']
+        session[:event_hour] = params[:event_time]['time(4i)'].to_i
+      end
+
+      if params[:event_time]['time(5i)']
+        session[:event_minute] = params[:event_time]['time(5i)'].to_i
+      end
+    end
+
+    # Grab them
+    @event_title = session[:event_title]
+    @event_description = session[:event_description]
+    @event_date = Date.new(session[:event_year], session[:event_month], session[:event_day])
+    @event_time = Time.new(session[:event_year], session[:event_month], session[:event_day], session[:event_hour], session[:event_minute])
+    #@event_date = Date.new(2018, 4, 4)
+    #@event_hour = session[:event_hour]
+    #@event_minute = session[:event_minute]
   end
 
   private

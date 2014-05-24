@@ -1,1 +1,15 @@
 <h2>confirm</h2>
+
+<p><strong>Event Title:</strong></p>
+<p><%= @event_title %></p>
+
+<p><strong>Event Description:</strong></p>
+<p><%= @event_description %></p>
+
+<p><strong>Event Date:</strong></p>
+<p><%= @event_date %></p>
+
+<p><strong>Event Time:</strong></p>
+<p>
+<%= @event_time.strftime('%H:%M') %>
+</p>
