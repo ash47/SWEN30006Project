@@ -1,3 +1,15 @@
 <h1>New Event for <%= @club.name %></h1>
 
 <%= render template: 'events/create_nav' %>
+
+<% if @stage == Event.stage_details %>
+  <%= render template: 'events/create_details' %>
+<% end %>
+
+<% if @stage == Event.stage_tickets %>
+  <%= render template: 'events/create_tickets' %>
+<% end %>
+
+<% if @stage == Event.stage_confirm %>
+  <%= render template: 'events/create_confirm' %>
+<% end %>
