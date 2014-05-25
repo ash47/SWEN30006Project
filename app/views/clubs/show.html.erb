@@ -1,40 +1,62 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @club.name %>
-</p>
+<div >
+  
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @club.description %>
-</p>
-
-<p>
-  <strong>Website:</strong>
-  <%= @club.website %>
-</p>
-
-<p><strong>Member Count:</strong> <%= @club.memberships.count %></p>
 
 <% if @is_club_admin %>
   <p><strong>You are an admin!</strong></p>
-  <p><%= link_to 'Create Event', create_event_path(@club, Event.stage_new) %></p>
+  <p><%= link_to 'Create Event', create_event_path(@club, Event.stage_new), class: 'btn btn-primary' %></p>
 <% end %>
+<div class="col-md-8">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <h1><%= @club.name %></h1>
+      </div>
+    </div>
+    <div class="panel-body">
+    <p>
+    <div class="container-fluid">
+      <div class="well col-md-6">
+        <%= @club.description %>
+      </div>
+      <div class="well col-md-5 col-md-offset-1">
+        <h3>Contact</h3>
+        <a href="http://<%= @club.website %>"><%= @club.website %></a>
+        <h3>Admins</h3>
+          <% @admins.each do |admin| %>
+            <p><%= admin.full_name %></p>
+          <% end %>
+      </p>
+    </div>
+    </div>
+      
+    </p>
+    </div>
+  </div>
+  <div class="well">
+    
 
-<p><strong>Club Events</strong></p>
-<% if @events.count > 0 %>
-  <% @events.each do |event| %>
-    <p><%= link_to event.name, event_path(event) %></p>
-  <% end %>
-<% else %>
-  <p>No events</p>
-<% end %>
+    
+    
 
-<p>Our admins:</p>
-<% @admins.each do |admin| %>
-  <p><%= admin.id %> - <%= admin.full_name %></p>
-<% end %>
+    <p><strong>Member Count:</strong> <%= @club.memberships.count %></p>
+  </div>
+  <div class="well">
+    <p><strong>Club Events</strong></p>
+    <% if @events.count > 0 %>
+      <% @events.each do |event| %>
+        <p><%= link_to event.name, event_path(event) %></p>
+      <% end %>
+    <% else %>
+      <p>No events</p>
+    <% end %>
+  </div>
+</div>
+
+
 
 <% if @is_club_member %>
   <% if not @is_club_admin %>
