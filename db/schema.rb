@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525062229) do
+ActiveRecord::Schema.define(version: 20140525075942) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",                default: "",    null: false
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 20140525062229) do
     t.integer  "user_id"
     t.string   "message"
     t.boolean  "read",       default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ticket_reservations", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "ticket_id"
+    t.integer  "event_id"
+    t.integer  "m_amount"
+    t.integer  "n_amount"
+    t.integer  "s_amount"
+    t.boolean  "pickedup",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

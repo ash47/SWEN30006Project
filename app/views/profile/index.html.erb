@@ -29,3 +29,14 @@
 <% else %>
   <p>You are not a member of any clubs D:</p>
 <% end %>
+
+<% if @reservations.count > 0 %>
+  <strong>You have reserved the following tickets</strong><br>
+  <% @reservations.each do |r| %>
+    <%= r.event.name %> - <%= r.ticket.tname %>:<br>
+    Member Tickets: <%= r.m_amount %><br>
+    Non Member Tickets: <%= r.n_amount %><br>
+    Shared Tickets: <%= r.s_amount %><br>
+    Pickup location: <%= r.ticket.pickup%><br><br>
+  <% end %>
+<% end %>

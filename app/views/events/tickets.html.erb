@@ -1,0 +1,64 @@
+<h1>Reserving Tickets for <%= @event.name %></h1>
+
+<% if @error_message %>
+  <span style="color:red;"><%= @error_message %></span>
+<% end %>
+
+<p>You can only reserve up to 4 tickets total.</p>
+
+<% if @tickets.length > 0 %>
+  <%= form_tag(reserve_tickets_path(@event), method: "get") do %>
+    <% @tickets.each.with_index(0) do |ticket, index| %>
+      <br><br>
+      <p><strong><%= ticket[:tname] %></strong>
+      <%= ticket[:remaining] %> Remaining -
+      <%= ticket[:pickup] %></p>
+
+      <% now = Time.now %>
+      <% open = now >= ticket[:opendate] and now <= ticket[:closedate] %>
+
+      <table class="table table-striped">
+        <tbody>
+        <tr>
+          <td>Member</td>
+          <td>$<%= ticket[:mprice] %></td>
+          <td>
+            <% if open %>
+              <%= text_field_tag('m_amount'+index.to_s, @ticket_amounts['m'+index.to_s]) %>
+            <% else %>
+              Closed
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>Non-Member</td>
+          <td>$<%= ticket[:nprice] %></td>
+          <td>
+            <% if open %>
+              <%= text_field_tag('n_amount'+index.to_s, @ticket_amounts['n'+index.to_s]) %>
+            <% else %>
+              Closed
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>Shared Member</td>
+          <td>$<%= ticket[:sprice] %></td>
+          <td>
+            <% if open %>
+              <%= text_field_tag('s_amount'+index.to_s, @ticket_amounts['s'+index.to_s]) %>
+            <% else %>
+              Closed
+            <% end %>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    <% end %>
+
+    <%= submit_tag("Cancel", name: 'cancel') %>
+    <%= submit_tag("Reserve", name: 'reserve') %>
+  <% end %>
+<% else %>
+  <p><strong>No Tickets Created</strong></p>
+<% end %>
