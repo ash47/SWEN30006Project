@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   end
 
   def show
-
+    @club = @event.club
   end
 
   def create

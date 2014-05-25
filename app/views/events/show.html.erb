@@ -4,6 +4,8 @@
 <p>Start Time: <%= @event.start_time.strftime('%H:%M') %></p>
 <p>Duration: <%= @event.duration %> hours</p>
 
+<p>club: <%= link_to @club.name, @club %></p>
+
 <% if @tickets.length > 0 %>
   <% @tickets.each do |ticket| %>
     <br><br>
