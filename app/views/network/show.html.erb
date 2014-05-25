@@ -1,0 +1,9 @@
+<h1>Network: <%= @network.name %></h1>
+
+<% @clubs.each do |club| %>
+  <p><%= club.name %></p>
+<% end %>
+
+<% if @is_admin %>
+  <p>Invite Club</p>
+<% end %>

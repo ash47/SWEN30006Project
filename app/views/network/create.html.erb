@@ -1,0 +1,7 @@
+<h1>Creating a new network for club <%= @club.name %></h1>
+
+<%= form_tag(network_create_path(@club), method: "get") do %>
+  <%= label_tag(:network_name, "Network Name:") %><br>
+  <%= text_field_tag(:network_name, @network_name) %><br>
+  <%= submit_tag "Create", name: 'create' %>
+<% end %>
