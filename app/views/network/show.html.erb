@@ -1,9 +1,20 @@
 <h1>Network: <%= @network.name %></h1>
 
+<p><strong>Clubs</strong></p>
 <% @clubs.each do |club| %>
   <p><%= club.name %></p>
 <% end %>
 
+<p><strong>Invited Clubs</strong></p>
+<% @u_clubs.each do |club| %>
+  <p><%= club.name %></p>
+<% end %>
+
 <% if @is_admin %>
-  <p>Invite Club</p>
+  <h2>Invite Club</h2>
+  <%= form_tag(network_page_path(@network), method: "get") do %>
+    <%= label_tag(:club_id, "Club ID:") %><br>
+    <%= text_field_tag(:club_id, @club_id) %><br>
+    <%= submit_tag "Invite", name: 'invite' %>
+  <% end %>
 <% end %>
