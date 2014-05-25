@@ -27,6 +27,10 @@ ClubBiz::Application.routes.draw do
   get '/events/:id/tickets', to: 'events#tickets', as: 'reserve_tickets'
   get '/events/:id/markticket/:ticketID', to: 'events#mark_ticket', as: 'ticket_pickup'
 
+  # Network stuff
+  get '/network/create/:clubID', to: 'network#create', as: 'network_create'
+  get '/network/:networkID', to: 'network#show', as: 'network_page'
+
   # Profile stuff
   get '/profile', to: 'profile#index', as: 'profile'
   get '/messages/:id/delete', to: 'profile#delete_message', as: 'delete_message'
