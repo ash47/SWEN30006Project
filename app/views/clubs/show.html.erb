@@ -16,7 +16,7 @@ Networks:<br>
       <% if @is_club_admin %>
         <%= link_to 'Edit club', edit_club_path(@club), class: 'btn btn-primary' %>
       <% else %>
-        <%= link_to 'Leave Club', leave_club_path(@club), class: 'btn btn-primary' %>
+        <%= link_to 'Leave Club', leave_club_path(@club), class: 'btn btn-warning' %>
       <% end -%>
     <% else %>
       <%= link_to 'Join', join_club_path(@club), class: 'btn btn-primary' %>
@@ -73,21 +73,8 @@ Networks:<br>
   <% if user_signed_in? %>
     <% if @is_club_member %>
       <% if @is_club_admin %>
-        <%= link_to 'Create Event', create_event_path(@club, Event.stage_new), class: 'btn btn-primary' %>
+        <%= link_to 'Create Event', create_event_path(@club, Event.stage_new), class: 'btn btn-success' %>
       <% end -%>
     <% end -%>
   <% end -%>
-</div>
-
-<div class="col-sm-12 well">
-  <h3>Admin</h3>
-  <% if user_signed_in? %>
-    <% if @is_club_member %>
-        <% if not @is_club_admin %>
-          <%= link_to 'Leave Club', leave_club_path(@club), class: 'btn btn-primary' %>
-        <% end %>
-    <% else %>
-    <% end %>
-  <% end %>
-  <%= link_to 'Back', clubs_path, class: 'btn btn-primary' %>
 </div>

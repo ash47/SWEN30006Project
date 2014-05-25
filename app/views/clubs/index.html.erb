@@ -52,10 +52,14 @@
             <td>Not a member</td>
           <% end %>
         <% end %>
-        <td><%= link_to 'Show', club %>
+        <td><%= link_to 'Show', club, class: 'btn btn-default' %>
         <% if rank and rank == User.rank_admin %>
-          <%= link_to 'Edit', edit_club_path(club) %>
-          <%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Edit', edit_club_path(club), class: 'btn btn btn-primary' %>
+
+          <%= link_to club, :class => 'btn btn-danger', :method => :delete, :data => { :confirm => 'Are you sure?' } do %>
+  <span>Delete</span>
+<% end %>
+
         <% end %>
       </tr>
     <% end %>
