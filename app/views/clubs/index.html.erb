@@ -24,7 +24,7 @@
 <% end %>
 
 <%= form_tag(clubs_path, method: "get") do %>
-  <strong>Key Word: <%= text_field_tag(:key_word) %></strong>
+  <strong>Key Word: <%= text_field_tag(:key_word, @key_word) %></strong>
   <%= submit_tag("Search", name: 'search') %>
 <% end %>
 

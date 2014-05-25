@@ -9,7 +9,12 @@ class EventsController < ApplicationController
   before_action :get_reservations, only: [:show, :tickets]
 
   def index
-    @events = Event.all
+    if params[:search] and params[:key_word].length > 0
+      @key_word = params[:key_word]
+      @events = Event.where('name LIKE ?', '%'+params[:key_word]+'%').all
+    else
+      @events = Event.all
+    end
   end
 
   def show

@@ -8,7 +8,8 @@ class ClubsController < ApplicationController
   # GET /clubs.json
   def index
     # Grab all confirmed clubs
-    if params[:search]
+    if params[:search] and params[:key_word].length > 0
+      @key_word = params[:key_word]
       @clubs = Club.where('name LIKE ? OR description LIKE ?', '%'+params[:key_word]+'%', '%'+params[:key_word]+'%').all
     else
       @clubs = Club.find(:all, :conditions => {:confirmed => true})
