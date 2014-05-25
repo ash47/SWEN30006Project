@@ -1,4 +1,5 @@
-<%= simple_form_for(@club) do |f| %>
+<%= simple_form_for @club, defaults: { input_html: { :class => "form-group form-control" } } do |f| %>
+
 	<% if @club.errors.any? %>
 	  <div id="error_explanation">
 	    <h2><%= pluralize(@club.errors.count, "error") %> prohibited this club from being saved:</h2>
