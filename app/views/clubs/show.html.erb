@@ -1,72 +1,84 @@
 <p id="notice"><%= notice %></p>
 
-<div >
-  
+<h1>
+  <%= @club.name %>
+  <% if user_signed_in? %>
+    <% if @is_club_member %>
+      <% if @is_club_admin %>
+        <%= link_to 'Edit club', edit_club_path(@club), class: 'btn btn-primary' %>
+      <% else %>
+        <%= link_to 'Leave Club', leave_club_path(@club), class: 'btn btn-primary' %>
+      <% end -%>
+    <% else %>
+      <%= link_to 'Join', join_club_path(@club), class: 'btn btn-primary' %>
+    <% end -%>
+  <% end -%>
+</h1>
+<div class="col-sm-8 well">
+  <h3>Description</h3>
+  <p><%= @club.description %></p>
+</div>
+<div class="col-sm-4 well">
+  <h3>Contact</h3>
+  <p><a href="http://<%= @club.website %>"><%= @club.website %></a></p>
+  <h3>Admins</h3>
+  <% @admins.each do |admin| %>
+      <p><%= admin.full_name %></p>
+    <% end %>
+  <h3>Member Count</h3>
+  <p>This club has <%= pluralize(@club.memberships.count, "member") %></p>
 </div>
 
-
-<% if @is_club_admin %>
-  <p><strong>You are an admin!</strong></p>
-  <p><%= link_to 'Create Event', create_event_path(@club, Event.stage_new), class: 'btn btn-primary' %></p>
-<% end %>
-<div class="col-md-8">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">
-        <h1><%= @club.name %></h1>
-      </div>
-    </div>
-    <div class="panel-body">
-    <p>
-    <div class="container-fluid">
-      <div class="well col-md-6">
-        <%= @club.description %>
-      </div>
-      <div class="well col-md-5 col-md-offset-1">
-        <h3>Contact</h3>
-        <a href="http://<%= @club.website %>"><%= @club.website %></a>
-        <h3>Admins</h3>
-          <% @admins.each do |admin| %>
-            <p><%= admin.full_name %></p>
-          <% end %>
-      </p>
-    </div>
-    </div>
-      
-    </p>
-    </div>
-  </div>
-  <div class="well">
-    
-
-    
-    
-
-    <p><strong>Member Count:</strong> <%= @club.memberships.count %></p>
-  </div>
-  <div class="well">
-    <p><strong>Club Events</strong></p>
-    <% if @events.count > 0 %>
-      <% @events.each do |event| %>
-        <p><%= link_to event.name, event_path(event) %></p>
-      <% end %>
-    <% else %>
-      <p>No events</p>
-    <% end %>
-  </div>
-</div>
-
-
-
-<% if user_signed_in? %>
-  <% if @is_club_member %>
-    <% if not @is_club_admin %>
-      <%= link_to 'Leave Club', leave_club_path(@club) %> |
-    <% else %>
-      <%= link_to 'Edit', edit_club_path(@club) %> |
-    <% end %>
+<div class="col-sm-12 well">
+  <h3>Events</h3>
+  <% if @events.count > 0 %>
+    <table class="table table-hover">
+      <thead>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Time</th>
+      </thead>
+      <tbody>
+        <% @events.each do |event| %>
+          <tr>
+            <td>
+              <%= link_to event.name, event_path(event) %>
+            </td>
+            <td>
+              <%= event.location %>
+            </td>
+            <td>
+              <%= event.start_time.strftime('%Y/%m/%d') %>
+            </td>
+            <td>
+              <%= event.start_time.strftime('%H:%M') %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
-    <%= link_to 'Join', join_club_path(@club) %> |
+    <p>There are no events to show.</p>
+  <% end -%>
+  <% if user_signed_in? %>
+    <% if @is_club_member %>
+      <% if @is_club_admin %>
+        <%= link_to 'Create Event', create_event_path(@club, Event.stage_new), class: 'btn btn-primary' %>
+      <% end -%>
+    <% end -%>
+  <% end -%>
+</div>
+
+<div class="col-sm-12 well">
+  <h3>Admin</h3>
+  <% if user_signed_in? %>
+    <% if @is_club_member %>
+        <% if not @is_club_admin %>
+          <%= link_to 'Leave Club', leave_club_path(@club), class: 'btn btn-primary' %>
+        <% end %>
+    <% else %>
+    <% end %>
   <% end %>
-<% end %>
-<%= link_to 'Back', clubs_path %>
+  <%= link_to 'Back', clubs_path, class: 'btn btn-primary' %>
+</div>
