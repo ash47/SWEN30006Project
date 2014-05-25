@@ -72,3 +72,13 @@
 <% else %>
   <p><strong>No Tickets Created</strong></p>
 <% end %>
+
+<%= form_tag(event_path(@event), method: "get") do %>
+  <%= text_area_tag(:text) %><br>
+  <%= submit_tag("Add Comment", name: 'comment') %><br><br>
+<% end %>
+
+<p><strong>Comments:</strong></p>
+<% @comments.each do |comment| %>
+  <p><strong><%= comment.user.full_name %>:</strong> <%= comment.message %></p>
+<% end %>

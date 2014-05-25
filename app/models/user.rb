@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 
   has_many :unconfirmed_networks, through: :clubs, source: 'club_networks', conditions: {'memberships.rank' => 3, 'club_networks.verified' => false}
 
+  has_many :comments
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
