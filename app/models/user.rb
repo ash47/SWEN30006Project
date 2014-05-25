@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
   has_many :memberships
   has_many :clubs, through: :memberships
+  #has_many :admin_clubs, through: :memberships, source: 'clubs', conditions: {'memberships.rank' => 3}
   has_many :messages
   has_many :ticket_reservations
+
+  has_many :unconfirmed_networks, through: :clubs, source: 'club_networks', conditions: {'memberships.rank' => 3}
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -27,7 +30,7 @@ class User < ActiveRecord::Base
   def self.ranks
     {"admin" => 3, "member" => 1}
   end
-  
+
   # Admin rank on clubs
   def self.rank_admin
     ranks["admin"]

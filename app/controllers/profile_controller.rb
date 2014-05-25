@@ -5,6 +5,7 @@ class ProfileController < ApplicationController
     @messages = current_user.messages
     @memberships = current_user.memberships.all
     @awaiting_verification = current_user.clubs.find(:all, :conditions => {:confirmed => false})
+    @network_needs_verify = current_user.unconfirmed_networks
 
     # Mark all messages as read
     @messages.each do |message|

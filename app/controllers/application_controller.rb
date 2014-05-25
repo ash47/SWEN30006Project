@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
 
   def check_notifications
     if user_signed_in?
-      @notifications = current_user.messages.where(:read => false).count
+      @network_notifications = current_user.unconfirmed_networks.count
+
+      @notifications = current_user.messages.where(:read => false).count + @network_notifications
 
       if current_user.admin
         @admin_notifications = Club.find(:all, :conditions => {:confirmed => false}).count
