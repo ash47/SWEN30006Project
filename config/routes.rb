@@ -25,6 +25,7 @@ ClubBiz::Application.routes.draw do
   get '/events/create/:id/:stage', to: 'events#create', as: 'create_event'
   get '/events/:id', to: 'events#show', as: 'event'
   get '/events/:id/tickets', to: 'events#tickets', as: 'reserve_tickets'
+  get '/events/:id/markticket/:ticketID', to: 'events#mark_ticket', as: 'ticket_pickup'
 
   # Profile stuff
   get '/profile', to: 'profile#index', as: 'profile'

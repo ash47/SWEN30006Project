@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
     belongs_to :club
 
     has_many :tickets
+    has_many :ticket_reservations
 
     validates :name, presence: :true
     validates :description, presence: :true

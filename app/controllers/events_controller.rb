@@ -1,9 +1,10 @@
 class EventsController < ApplicationController
-  before_action :get_user, only: [:create]
   before_action :set_club, only: [:create]
-  before_filter :must_be_admin, only: [:create]
+  before_action :get_event, only: [:show, :tickets, :mark_ticket]
+  before_action :get_club, only: [:mark_ticket, :show]
+  before_action :set_admin, only: [:create, :show, :mark_ticket]
+  before_filter :must_be_admin, only: [:create, :mark_ticket]
   before_action :get_notice, only: [:create, :show]
-  before_action :get_event, only: [:show, :tickets]
   before_action :get_reservations, only: [:show, :tickets]
 
   def index
@@ -11,7 +12,22 @@ class EventsController < ApplicationController
   end
 
   def show
-    @club = @event.club
+
+  end
+
+  def mark_ticket
+    ticketID = params[:ticketID]
+
+    # Find the ticket
+    ticket = TicketReservation.find(ticketID)
+
+    if ticket.pickedup
+      redirect_to event_path(@event, notice: 'This ticket has already been marked as picked up.')
+    else
+      ticket.pickedup = true
+      ticket.save()
+      redirect_to event_path(@event, notice: 'Ticket was marked as picked up.')
+    end
   end
 
   def tickets
@@ -416,23 +432,15 @@ class EventsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_club
     @club = Club.find(params[:id])
+  end
 
-    if user_signed_in?
-      @is_club_member = @user.memberships.exists?(:club_id => @club.id)
-      @is_club_admin = @user.memberships.exists?(:club_id => @club.id, :rank => User.rank_admin)
-    end
+  def get_club
+    @club = @event.club
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def club_params
     params.require(:club).permit(:name, :description, :website, :uni_registration_id, :is_confirmed)
-  end
-
-  def get_user
-    # Attempt to get user info
-    if user_signed_in?
-      @user = User.find(current_user.id)
-    end
   end
 
   def get_notice
@@ -446,6 +454,17 @@ class EventsController < ApplicationController
 
   def get_reservations
     @reservations = current_user.ticket_reservations.where(:event_id => @event.id)
+  end
+
+  def set_admin
+    if user_signed_in?
+      @is_club_member = current_user.memberships.exists?(:club_id => @club.id)
+      @is_club_admin = current_user.memberships.exists?(:club_id => @club.id, :rank => User.rank_admin)
+
+      if @is_club_admin
+        @all_reseverations = @event.ticket_reservations
+      end
+    end
   end
 
   def must_be_admin

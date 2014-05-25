@@ -24,6 +24,41 @@
   <% else %>
     <%= link_to 'Reserve Tickets', reserve_tickets_path(@event) %>
   <% end %>
+
+  <% if @is_club_admin %>
+    <strong>Current Reservations:</strong><br>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Sort</th>
+          <th>Member Tickets</th>
+          <th>Non-Member Tickets</th>
+          <th>Shared Tickets</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_reseverations.each do |r| %>
+          <tr>
+            <% t = r.ticket %>
+            <td><%= t.tname %></td>
+            <td><%= r.m_amount %></td>
+            <td><%= r.n_amount %></td>
+            <td><%= r.s_amount %></td>
+            <td>$<%= (r.m_amount*t.mprice+r.s_amount*t.sprice+r.n_amount*t.nprice) %></td>
+            <td>
+            <% if r.pickedup %>
+              Picked Up
+            <% else %>
+              <%= link_to 'Mark Tickets as picked up', ticket_pickup_path(@event.id, r.id) %>
+            <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  <% end %>
 <% else %>
   <p><strong>No Tickets Created</strong></p>
 <% end %>
