@@ -2,9 +2,11 @@
 
 <% if @awaiting_verification.count > 0 %>
   <strong>These clubs of yours are not verified yet:</strong>
-  <% @awaiting_verification.each do |club| %>
-    <p><%= club.uni_registration_id %></p>
-  <% end %>
+  <ul>
+    <% @awaiting_verification.each do |club| %>
+      <li><%= link_to club.uni_registration_id, club_path(club) %></li>
+    <% end %>
+  </ul>
 <% end %>
 
 <% if @memberships.count > 0 %>

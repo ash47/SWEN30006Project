@@ -1,14 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-Networks:<br>
-<% @club.networks.each do |network| %>
-  <%= link_to network.name, network_page_path(network) %><br>
-<% end %>
-
-<br>
-
-<%= link_to 'Create Network', network_create_path(@club) %>
-
 <h1>
   <%= @club.name %>
   <% if user_signed_in? %>
@@ -36,6 +27,15 @@ Networks:<br>
     <% end %>
   <h3>Member Count</h3>
   <p>This club has <%= pluralize(@club.memberships.count, "member") %></p>
+  <h3>Networks</h3>
+  <% @club.networks.each do |network| %>
+    <p><%= link_to network.name, network_page_path(network) %></p>
+  <% end %>
+  <% if @is_club_admin %>
+    <%= link_to network_create_path(@club), class: 'btn btn-success' do %>
+      Create New Network
+    <% end %>
+  <% end %>
 </div>
 
 <div class="col-sm-12 well">
@@ -73,7 +73,7 @@ Networks:<br>
   <% if user_signed_in? %>
     <% if @is_club_member %>
       <% if @is_club_admin %>
-        <%= link_to 'Create Event', create_event_path(@club, Event.stage_new), class: 'btn btn-success' %>
+        <%= link_to 'Create New Event', create_event_path(@club, Event.stage_new), class: 'btn btn-success' %>
       <% end -%>
     <% end -%>
   <% end -%>
