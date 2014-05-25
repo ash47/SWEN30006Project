@@ -13,7 +13,7 @@
   <%= label_tag(:event_time, "Start Time:") %><br>
   <%= time_select(:event_time, :time, {selected: @event_time}) %>
   <br>
-  <%= label_tag(:event_duration, "Event Duration:") %><br>
+  <%= label_tag(:event_duration, "Event Duration (hours):") %><br>
   <%= text_field_tag(:event_duration, @event_duration) %>
   <br><br>
   <%= submit_tag("Cancel", name: 'cancel', confirm: 'Are you sure you want to cancel making a new event?') %>

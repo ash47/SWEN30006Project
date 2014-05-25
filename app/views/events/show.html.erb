@@ -1,0 +1,18 @@
+<h1><%= @event.name %></h1>
+<p><%= @event.description %></p>
+<p>Date: <%= @event.start_time.strftime('%Y/%m/%d') %></p>
+<p>Start Time: <%= @event.start_time.strftime('%H:%M') %></p>
+<p>Duration: <%= @event.duration %> hours</p>
+
+<% if @tickets.length > 0 %>
+  <% @tickets.each do |ticket| %>
+    <br><br>
+    <p><strong>Ticket Name: </strong><%= ticket[:tname] %></p>
+    <p><strong>Member Price: </strong>$<%= ticket[:mprice] %></p>
+    <p><strong>Non-Member Price: </strong>$<%= ticket[:nprice] %></p>
+    <p><strong>Shared Member Price: </strong>$<%= ticket[:sprice] %></p>
+    <p><strong>Tickets Remaining: </strong><%= ticket[:remaining] %></p>
+  <% end %>
+<% else %>
+  <p><strong>No Tickets Created</strong></p>
+<% end %>

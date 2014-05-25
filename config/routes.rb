@@ -17,12 +17,13 @@ ClubBiz::Application.routes.draw do
 
   # Admin stuff
   get '/admin', to: 'admin#index', as: 'admin'
-  get 'admin/verify/:id', to: 'admin#verify', as: 'verify_club'
-  patch 'admin/verify/:id', to: 'admin#verify'
+  get '/admin/verify/:id', to: 'admin#verify', as: 'verify_club'
+  patch '/admin/verify/:id', to: 'admin#verify'
 
   # Events stuff
   get '/events', to: 'events#index', as: 'search_events'
   get '/events/create/:id/:stage', to: 'events#create', as: 'create_event'
+  get '/events/:id', to: 'events#show', as: 'event'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

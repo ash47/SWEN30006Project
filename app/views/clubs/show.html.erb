@@ -19,7 +19,16 @@
 
 <% if @is_club_admin %>
   <p><strong>You are an admin!</strong></p>
-  <p><%= link_to 'Create Event', create_event_path(@club, Event.stage_details) %></p>
+  <p><%= link_to 'Create Event', create_event_path(@club, Event.stage_new) %></p>
+<% end %>
+
+<p><strong>Club Events</strong></p>
+<% if @events.count > 0 %>
+  <% @events.each do |event| %>
+    <p><%= link_to event.name, event_path(event) %></p>
+  <% end %>
+<% else %>
+  <p>No events</p>
 <% end %>
 
 <p>Our admins:</p>

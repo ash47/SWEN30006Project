@@ -9,7 +9,7 @@
 
 <p><strong>Start Time: </strong><%= @event_time.strftime('%H:%M') %></p>
 
-<p><strong>Duration: </strong><%= @event_duration %></p>
+<p><strong>Duration (hours): </strong><%= @event_duration %></p>
 
 <% if @event_tickets.length > 0 %>
   <% @event_tickets.each do |ticket| %>

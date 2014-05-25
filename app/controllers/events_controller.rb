@@ -3,8 +3,13 @@ class EventsController < ApplicationController
   before_action :set_club, only: [:create]
   before_filter :must_be_admin, only: [:create]
   before_action :get_notice, only: [:create]
+  before_action :get_event, only: [:show]
 
   def index
+  end
+
+  def show
+
   end
 
   def create
@@ -18,6 +23,24 @@ class EventsController < ApplicationController
     if not is_valid_stage @stage
       # Stage is invalid, make it valid
       @stage = Event.stage_details
+    end
+
+    # Check if they are making a brand new event
+    if @stage == Event.stage_new
+      # Clear all event data
+      session.delete(:event_title)
+      session.delete(:event_description)
+      session.delete(:event_duration)
+      session.delete(:event_year)
+      session.delete(:event_month)
+      session.delete(:event_day)
+      session.delete(:event_hour)
+      session.delete(:event_minute)
+      session.delete(:event_tickets)
+
+      # Redirect to details page
+      redirect_to create_event_path(@club, Event.stage_details)
+      return
     end
 
     # Check for the cancel event
@@ -128,8 +151,6 @@ class EventsController < ApplicationController
 
         # Validate data
 
-        asd = session[:event_tickets][index][:tname]
-
 
         # Update the ticket info
         session[:event_tickets][index] = {
@@ -141,7 +162,7 @@ class EventsController < ApplicationController
         }
 
         # Redirect back to tickets
-        redirect_to create_event_path(@club, Event.stage_tickets, notice: 'Ticket was updated.'+asd)
+        redirect_to create_event_path(@club, Event.stage_tickets, notice: 'Ticket was updated.')
         return
       else
         # Ticket index is unknown, can't update :(
@@ -176,7 +197,54 @@ class EventsController < ApplicationController
     @event_tickets = session[:event_tickets]
 
     # Create the event
+    if @stage == Event.stage_doit
+      # Validate data
 
+
+      # Create the new event
+      e = Event.create({
+        :club_id => @club.id,
+        :start_time => @event_time,
+        :duration => @event_duration,
+        :description => @event_description,
+        :name => @event_title
+      })
+
+      # Attempt to save the new event
+      if e.save
+        # Add tickets
+        success = true
+
+        # Loop over all tickets
+        @event_tickets.each do |ticket|
+          # Create the ticket
+          t = Ticket.create({
+            :event_id => e.id,
+            :tname => ticket[:tname],
+            :mprice => ticket[:mprice],
+            :nprice => ticket[:nprice],
+            :sprice => ticket[:sprice],
+            :total => ticket[:total],
+            :remaining => ticket[:total]
+          })
+
+          if not t.save
+            success = false
+          end
+        end
+
+        if success == false
+          redirect_to create_event_path(@club, Event.stage_confirm, notice: 'Failed to save new event tickets.')
+          return
+        end
+
+        # Success, redirect back to club
+        redirect_to @club, notice: 'New event was created!'
+      else
+        redirect_to create_event_path(@club, Event.stage_confirm, notice: 'Failed to save new event.')
+        return
+      end
+    end
   end
 
   private
@@ -206,6 +274,11 @@ class EventsController < ApplicationController
     @notice = params[:notice]
   end
 
+  def get_event
+    @event = Event.find(params[:id])
+    @tickets = @event.tickets
+  end
+
   def must_be_admin
     if not @is_club_admin
       redirect_to @club, notice: 'You need to be an admin to do this.'
@@ -215,6 +288,10 @@ class EventsController < ApplicationController
 
   def is_valid_stage stage
     # Check if the stage is any of the valid stages
+    if  stage == Event.stage_new
+      return true
+    end
+
     if  stage == Event.stage_details
       return true
     end
