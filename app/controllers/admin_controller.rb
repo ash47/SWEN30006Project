@@ -14,21 +14,57 @@ class AdminController < ApplicationController
       # Grab data
       data = params.require(:club).permit(:name, :website)
 
-      # Ensure a name was entered
-      if not data.key?(:name) or data[:name] == ""
-        @error_message = "Please enter a club name"
+      # Grab the owner of the club
+      @owner = @club.admins.first
+
+      # Check if user tried to verify
+      if params[:verify]
+        # Ensure a name was entered
+        if not data.key?(:name) or data[:name] == ""
+          @error_message = "Please enter a club name"
+          return
+        end
+
+        # Copy data in
+        @club.name = data[:name]
+        @club.website = data[:website]
+        @club.confirmed = true
+
+        # Save and redirect
+        @club.save()
+
+        # Add a message for the owner
+        @owner.messages.create({
+          :message => 'Your club '+@club.name+' has been verified.'
+        })
+
+        redirect_to admin_path, notice: 'Club was verified!'
         return
       end
 
-      # Copy data in
-      @club.name = data[:name]
-      @club.website = data[:website]
-      @club.confirmed = true
+      # Check if the user tried to reject
+      if params[:reject]
+        # Grab the reason
+        reason = params[:reason]
 
-      # Save and redirect
-      @club.save()
+        # Add a message for the owner
+        @owner.messages.create({
+          :message => 'Your club with ID '+params[:id]+' has been rejected with the reason: '+reason
+        })
 
-      redirect_to admin_path, notice: 'Club was verified!'
+        # Clear all memberships
+        @club.memberships.each do |membership|
+          membership.delete
+        end
+
+        # Delete the club
+        @club.delete
+
+        redirect_to admin_path, notice: 'Club was rejected!'
+        return
+      end
+
+      @error_message = "Please either verify or reject."
     end
   end
 

@@ -77,16 +77,20 @@ class ClubsController < ApplicationController
 
   # A user is trying to join a club
   def join
-    # Attempt to grab their membership
-    membership = @club.memberships.find_by(user_id: current_user.id)
-    if membership
-      # User is already a member
-      redirect_to @club, notice: 'You are already a member.'
-    else
-      # Add their membership
-      @club.memberships.create(:user => @user, :rank => User.rank_member)
+    if user_signed_in?
+      # Attempt to grab their membership
+      membership = @club.memberships.find_by(user_id: current_user.id)
+      if membership
+        # User is already a member
+        redirect_to @club, notice: 'You are already a member.'
+      else
+        # Add their membership
+        @club.memberships.create(:user => @user, :rank => User.rank_member)
 
-      redirect_to @club, notice: 'You have joined this club.'
+        redirect_to @club, notice: 'You have joined this club.'
+      end
+    else
+      redirect_to @club, notice: 'You must sign in before you can join this club.'
     end
   end
 

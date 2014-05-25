@@ -36,13 +36,15 @@
   <p><%= admin.id %> - <%= admin.full_name %></p>
 <% end %>
 
-<% if @is_club_member %>
-  <% if not @is_club_admin %>
-    <%= link_to 'Leave Club', leave_club_path(@club) %> |
+<% if user_signed_in? %>
+  <% if @is_club_member %>
+    <% if not @is_club_admin %>
+      <%= link_to 'Leave Club', leave_club_path(@club) %> |
+    <% else %>
+      <%= link_to 'Edit', edit_club_path(@club) %> |
+    <% end %>
   <% else %>
-    <%= link_to 'Edit', edit_club_path(@club) %> |
+    <%= link_to 'Join', join_club_path(@club) %> |
   <% end %>
-<% else %>
-  <%= link_to 'Join', join_club_path(@club) %> |
 <% end %>
 <%= link_to 'Back', clubs_path %>
