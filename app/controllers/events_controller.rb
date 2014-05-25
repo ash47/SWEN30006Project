@@ -2,8 +2,9 @@ class EventsController < ApplicationController
   before_action :get_user, only: [:create]
   before_action :set_club, only: [:create]
   before_filter :must_be_admin, only: [:create]
-  before_action :get_notice, only: [:create]
+  before_action :get_notice, only: [:create, :show]
   before_action :get_event, only: [:show, :tickets]
+  before_action :get_reservations, only: [:show, :tickets]
 
   def index
     @events = Event.all
@@ -14,7 +15,118 @@ class EventsController < ApplicationController
   end
 
   def tickets
+    # Ensure the user is signed in
+    if not user_signed_in?
+      redirect_to event_path(@event)
+      return
+    end
+
+    # Check if this user already made reservations
+    if @reservations.count > 0
+      redirect_to event_path(@event, notice: 'You have already reserved tickets.')
+    end
+
     @tickets = @event.tickets
+
+    # Check for submitted data
+    if params[:cancel]
+      # User trying to cancel their reservations
+      redirect_to event_path(@event)
+    end
+
+    # Stores what the user entered for each amount
+    @ticket_amounts = {}
+
+    # Stores the reservations to make
+    @resev = {}
+
+    # User tried to reserve tickets
+    if params[:reserve]
+      # The total number of tickets this user is asking for
+      total = 0
+
+      # Validate selection
+      @tickets.each.with_index(0) do |ticket, index|
+        # Grab ticket amounts
+        m_amount = params['m_amount'+index.to_s].to_i.abs
+        n_amount = params['n_amount'+index.to_s].to_i.abs
+        s_amount = params['s_amount'+index.to_s].to_i.abs
+
+        # Copy ticket numbers for client
+        @ticket_amounts['m'+index.to_s] = m_amount
+        @ticket_amounts['n'+index.to_s] = n_amount
+        @ticket_amounts['s'+index.to_s] = s_amount
+
+        # Workout the total number of tickets needed
+        amount = m_amount+n_amount+s_amount
+        total += amount
+
+        # Check if the tickets are closed
+        now = Time.now
+        open = now >= ticket[:opendate] and now <= ticket[:closedate]
+        if amount > 0 and not open
+          @error_message = 'You can\'t reserve tickets for this class.'
+        end
+
+        # See if there are even that many left
+        if total > ticket.remaining
+          @error_message = 'You tried to reserve more tickets then there are available.'
+        end
+
+        # See if this user is asking for more then they are allowed
+        if total > Ticket.max_tickets
+          @error_message = 'You are only allowed to reserve '+Ticket.max_tickets.to_s+' at a time.'
+        end
+
+        # Store reservations
+        if amount > 0
+          @resev[index] = {
+            :m_amount => m_amount,
+            :n_amount => n_amount,
+            :s_amount => s_amount,
+            :total => m_amount+n_amount+s_amount,
+            :ticket => ticket
+          }
+        end
+      end
+
+      # Check if they tried to reserve no tickets
+      if total == 0
+        @error_message = 'Please enter how many tickets you want to reserve.'
+      end
+
+      # Check if there was an error
+      if @error_message
+        return
+      end
+
+      # It all checks out, do the reservations
+      @resev.each do |key, r|
+
+        # Create the reservation
+        res = TicketReservation.create({
+          :user_id => current_user.id,
+          :ticket_id => r[:ticket].id,
+          :event_id => @event.id,
+          :m_amount => r[:m_amount],
+          :n_amount => r[:n_amount],
+          :s_amount => r[:s_amount]
+        })
+
+        # Lower the amount of tickets left
+        r[:ticket].remaining -= r[:total]
+        r[:ticket].save()
+
+        # Attempt to save the reservation
+        if not res.save()
+          @error_message = 'Failed to save ticket reservations.'
+          return
+        end
+      end
+
+      # Redirect back to event page
+      redirect_to event_path(@event, notice: 'Your tickets have been reserved.')
+    end
   end
 
   def create
@@ -330,6 +442,10 @@ class EventsController < ApplicationController
   def get_event
     @event = Event.find(params[:id])
     @tickets = @event.tickets
+  end
+
+  def get_reservations
+    @reservations = current_user.ticket_reservations.where(:event_id => @event.id)
   end
 
   def must_be_admin

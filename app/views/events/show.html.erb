@@ -1,4 +1,9 @@
 <h1><%= @event.name %></h1>
+
+<% if @notice %>
+  <p><strong><%= @notice %></strong></p>
+<% end %>
+
 <p><%= @event.description %></p>
 <p><%= @event.location %></p>
 <p>Date: <%= @event.start_time.strftime('%Y/%m/%d') %></p>
@@ -8,7 +13,17 @@
 <p>club: <%= link_to @club.name, @club %></p>
 
 <% if @tickets.length > 0 %>
-  <%= link_to 'Reserve Tickets', reserve_tickets_path(@event) %>
+  <% if @reservations.count > 0 %>
+    <strong>Your reservations</strong><br>
+    <% @reservations.each do |r| %>
+      <strong>Ticket Class</strong> <%= r.ticket.tname %><br>
+      <strong>Member amount</strong> <%= r.m_amount %><br>
+      <strong>Non-Member amount</strong> <%= r.n_amount %><br>
+      <strong>Shared amount</strong> <%= r.s_amount %><br><br>
+    <% end %>
+  <% else %>
+    <%= link_to 'Reserve Tickets', reserve_tickets_path(@event) %>
+  <% end %>
 <% else %>
   <p><strong>No Tickets Created</strong></p>
 <% end %>
