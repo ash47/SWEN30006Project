@@ -1,1 +1,6 @@
 <h1>Events Search Page</h1>
+
+<% @events.each do |event| %>
+  <% club = event.club %>
+  <p><%= link_to event.name, event_path(event) %> | Run by <%= link_to club.name, club %></p>
+<% end %>

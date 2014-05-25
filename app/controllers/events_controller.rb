@@ -6,6 +6,7 @@ class EventsController < ApplicationController
   before_action :get_event, only: [:show]
 
   def index
+    @events = Event.all
   end
 
   def show
