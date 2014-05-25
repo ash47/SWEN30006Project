@@ -1,1 +1,6 @@
 <h2>tickets</h2>
+
+<%= form_tag(create_event_path(@club, Event.stage_confirm), method: "get") do %>
+  <%= submit_tag("Back", name: 'back') %>
+  <%= submit_tag("Next") %>
+<% end %>

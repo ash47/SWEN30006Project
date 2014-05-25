@@ -5,13 +5,17 @@
   <%= text_field_tag(:event_title, @event_title) %>
   <br>
   <%= label_tag(:event_description, "Description:") %><br>
-  <%= text_field_tag(:event_description, @event_description) %>
+  <%= text_area_tag(:event_description, @event_description) %>
   <br>
   <%= label_tag(:event_date, "Date:") %><br>
-  <%= date_select(:event_date, :date, {selected: @event_date}) %>
+  <%= date_select(:event_date, :date, {selected: @event_time}) %>
   <br>
   <%= label_tag(:event_time, "Start Time:") %><br>
   <%= time_select(:event_time, :time, {selected: @event_time}) %>
+  <br>
+  <%= label_tag(:event_duration, "Event Duration:") %><br>
+  <%= text_field_tag(:event_duration, @event_duration) %>
   <br><br>
+  <%= submit_tag("Cancel", name: 'cancel', confirm: 'Are you sure you want to cancel making a new event?') %>
   <%= submit_tag("Next") %>
 <% end %>

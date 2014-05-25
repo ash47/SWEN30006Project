@@ -18,4 +18,9 @@ class Event < ActiveRecord::Base
     def self.stage_confirm
         'confirm'
     end
+
+    # This is the stage where we actually create the event
+    def self.stage_doit
+        'create_event'
+    end
 end

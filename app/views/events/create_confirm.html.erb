@@ -6,10 +6,16 @@
 <p><strong>Event Description:</strong></p>
 <p><%= @event_description %></p>
 
-<p><strong>Event Date:</strong></p>
-<p><%= @event_date %></p>
+<p><strong>Date:</strong></p>
+<p><%= @event_time.strftime('%Y/%m/%d') %></p>
 
-<p><strong>Event Time:</strong></p>
-<p>
-<%= @event_time.strftime('%H:%M') %>
-</p>
+<p><strong>Start Time:</strong></p>
+<p><%= @event_time.strftime('%H:%M') %></p>
+
+<p><strong>Duration:</strong></p>
+<p><%= @event_duration %></p>
+
+<%= form_tag(create_event_path(@club, Event.stage_doit), method: "get") do %>
+  <%= submit_tag("Back", name: 'back') %>
+  <%= submit_tag("Confirm") %>
+<% end %>

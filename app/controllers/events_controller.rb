@@ -19,6 +19,23 @@ class EventsController < ApplicationController
       @stage = Event.stage_details
     end
 
+    # Check for the cancel event
+    if params[:cancel]
+      redirect_to @club, notice: 'You cancelled making that event.'
+      return
+    end
+
+    # Check for back
+    if params[:back]
+      if @stage == Event.stage_confirm
+        redirect_to create_event_path(@club, Event.stage_details)
+        return
+      elsif @stage == Event.stage_doit
+        redirect_to create_event_path(@club, Event.stage_tickets)
+        return
+      end
+    end
+
     # Check for submitted event title
     if params[:event_title] and params[:event_title].length > 0
       session[:event_title] = params[:event_title]
@@ -27,6 +44,11 @@ class EventsController < ApplicationController
     # Description
     if params[:event_description] and params[:event_description].length > 0
       session[:event_description] = params[:event_description]
+    end
+
+    # Event Duration
+    if params[:event_duration]
+      session[:event_duration] = params[:event_duration].to_i
     end
 
     # Date
@@ -58,11 +80,14 @@ class EventsController < ApplicationController
     # Grab them
     @event_title = session[:event_title]
     @event_description = session[:event_description]
-    @event_date = Date.new(session[:event_year], session[:event_month], session[:event_day])
-    @event_time = Time.new(session[:event_year], session[:event_month], session[:event_day], session[:event_hour], session[:event_minute])
-    #@event_date = Date.new(2018, 4, 4)
-    #@event_hour = session[:event_hour]
-    #@event_minute = session[:event_minute]
+    @event_duration = session[:event_duration]
+    if session[:event_year] and session[:event_month] and session[:event_day] and session[:event_hour] and session[:event_minute]
+      @event_time = Time.new(session[:event_year], session[:event_month], session[:event_day], session[:event_hour], session[:event_minute])
+    else
+      @event_time = Time.now
+    end
+
+    # Create the event
   end
 
   private
@@ -106,6 +131,10 @@ class EventsController < ApplicationController
     end
 
     if stage == Event.stage_confirm
+      return true
+    end
+
+    if stage == Event.stage_doit
       return true
     end
 
