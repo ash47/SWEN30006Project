@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<% @club.networks.each do |network| %>
+  <%= link_to network.name, network_page_path(network) %><br>
+<% end %>
+
 <h1>
   <%= @club.name %>
   <% if user_signed_in? %>

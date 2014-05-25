@@ -9,12 +9,12 @@ class ApplicationController < ActionController::Base
   end
 
   def check_notifications
-    if current_user.admin
-      @admin_notifications = Club.find(:all, :conditions => {:confirmed => false}).count
-    end
-
     if user_signed_in?
       @notifications = current_user.messages.where(:read => false).count
+
+      if current_user.admin
+        @admin_notifications = Club.find(:all, :conditions => {:confirmed => false}).count
+      end
     end
   end
 
