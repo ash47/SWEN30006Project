@@ -41,6 +41,21 @@ class NetworkController < ApplicationController
     end
   end
 
+  def confirm
+    @network = ClubNetwork.find(params[:networkID])
+    @network.verified = true
+    @network.save()
+
+    redirect_to profile_path, notice: 'Network confirmed'
+  end
+
+  def reject
+    @network = ClubNetwork.find(params[:networkID])
+    @network.delete
+
+    redirect_to profile_path, notice: 'Network Rejected'
+  end
+
   def show
     # Check if they tried to invite someone
     if params[:invite]

@@ -31,6 +31,8 @@ ClubBiz::Application.routes.draw do
   # Network stuff
   get '/network/create/:clubID', to: 'network#create', as: 'network_create'
   get '/network/:networkID', to: 'network#show', as: 'network_page'
+  get '/network/:networkID/confirm', to: 'network#confirm', as: 'confirm_network'
+  get '/network/:networkID/reject', to: 'network#reject', as: 'reject_network'
 
   # Profile stuff
   get '/profile', to: 'profile#index', as: 'profile'

@@ -18,6 +18,15 @@
   <% end %>
 <% end %>
 
+<% if @network_needs_verify.count > 0 %>
+  <strong>These networks want you to add a club into them:</strong>
+  <% @network_needs_verify.each do |network| %>
+    <p><%= network.club.name %> was invited to join <%= network.network.name %>
+    <%= link_to '[Accept]', confirm_network_path(network) %> |
+    <%= link_to '[Reject]', reject_network_path(network) %></p>
+  <% end %>
+<% end %>
+
 <% if @memberships.count > 0 %>
   <strong>Clubs you are a member of:</strong>
   <% @memberships.each do |m| %>

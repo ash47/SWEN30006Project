@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :ticket_reservations
 
-  has_many :unconfirmed_networks, through: :clubs, source: 'club_networks', conditions: {'memberships.rank' => 3}
+  has_many :unconfirmed_networks, through: :clubs, source: 'club_networks', conditions: {'memberships.rank' => 3, 'club_networks.verified' => false}
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
