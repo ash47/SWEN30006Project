@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>
   <%= @club.name %>
   <% if user_signed_in? %>
@@ -14,67 +12,74 @@
     <% end -%>
   <% end -%>
 </h1>
-<div class="col-sm-8 well">
-  <h3>Description</h3>
-  <p><%= @club.description %></p>
+<div class="col-sm-8">
+  <div class="well">
+    <h3>Description</h3>
+    <p><%= @club.description %></p>
+  </div>    
 </div>
-<div class="col-sm-4 well">
-  <h3>Contact</h3>
-  <p><a href="http://<%= @club.website %>"><%= @club.website %></a></p>
-  <h3>Admins</h3>
-  <% @admins.each do |admin| %>
-      <p><%= admin.full_name %></p>
+<div class="col-sm-4">
+  <div class="well">
+    <h3>Contact</h3>
+    <p><a href="http://<%= @club.website %>"><%= @club.website %></a></p>
+    <h3>Admins</h3>
+    <% @admins.each do |admin| %>
+        <p><%= admin.full_name %></p>
+      <% end %>
+    <h3>Member Count</h3>
+    <p>This club has <%= pluralize(@club.memberships.count, "member") %></p>
+    <h3>Networks</h3>
+    <% @club.networks.each do |network| %>
+      <p><%= link_to network.name, network_page_path(network) %></p>
     <% end %>
-  <h3>Member Count</h3>
-  <p>This club has <%= pluralize(@club.memberships.count, "member") %></p>
-  <h3>Networks</h3>
-  <% @club.networks.each do |network| %>
-    <p><%= link_to network.name, network_page_path(network) %></p>
-  <% end %>
-  <% if @is_club_admin %>
-    <%= link_to network_create_path(@club), class: 'btn btn-success' do %>
-      Create New Network
+    <% if @is_club_admin %>
+      <%= link_to network_create_path(@club), class: 'btn btn-success' do %>
+        Create New Network
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
 
-<div class="col-sm-12 well">
-  <h3>Events</h3>
-  <% if @events.count > 0 %>
-    <table class="table table-hover">
-      <thead>
-        <th>Name</th>
-        <th>Location</th>
-        <th>Date</th>
-        <th>Time</th>
-      </thead>
-      <tbody>
-        <% @events.each do |event| %>
-          <tr>
-            <td>
-              <%= link_to event.name, event_path(event) %>
-            </td>
-            <td>
-              <%= event.location %>
-            </td>
-            <td>
-              <%= event.start_time.strftime('%Y/%m/%d') %>
-            </td>
-            <td>
-              <%= event.start_time.strftime('%H:%M') %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>There are no events to show.</p>
-  <% end -%>
-  <% if user_signed_in? %>
-    <% if @is_club_member %>
-      <% if @is_club_admin %>
-        <%= link_to 'Create New Event', create_event_path(@club, Event.stage_new), class: 'btn btn-success' %>
+<div class="col-sm-12">
+  <div class="well">
+    <h3>Events</h3>
+    <% if @events.count > 0 %>
+      <table class="table table-hover">
+        <thead>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Date</th>
+          <th>Time</th>
+        </thead>
+        <tbody>
+          <% @events.each do |event| %>
+            <tr>
+              <td>
+                <%= link_to event.name, event_path(event) %>
+              </td>
+              <td>
+                <%= event.location %>
+              </td>
+              <td>
+                <%= event.start_time.strftime('%Y/%m/%d') %>
+              </td>
+              <td>
+                <%= event.start_time.strftime('%H:%M') %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>There are no events to show.</p>
+    <% end -%>
+    <% if user_signed_in? %>
+      <% if @is_club_member %>
+        <% if @is_club_admin %>
+          <%= link_to 'Create New Event', create_event_path(@club, Event.stage_new), class: 'btn btn-success' %>
+        <% end -%>
       <% end -%>
     <% end -%>
-  <% end -%>
+  </div>
 </div>
+  
