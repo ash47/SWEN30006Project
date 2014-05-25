@@ -22,41 +22,48 @@
       <strong>Shared amount</strong> <%= r.s_amount %><br><br>
     <% end %>
   <% else %>
-    <%= link_to 'Reserve Tickets', reserve_tickets_path(@event) %>
+    <%= link_to 'Reserve Tickets', reserve_tickets_path(@event) %><br><br>
   <% end %>
 
   <% if @is_club_admin %>
     <strong>Current Reservations:</strong><br>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Sort</th>
-          <th>Member Tickets</th>
-          <th>Non-Member Tickets</th>
-          <th>Shared Tickets</th>
-          <th>Cost</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @all_reseverations.each do |r| %>
+
+    <% if @all_reseverations.count > 0 %>
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <% t = r.ticket %>
-            <td><%= t.tname %></td>
-            <td><%= r.m_amount %></td>
-            <td><%= r.n_amount %></td>
-            <td><%= r.s_amount %></td>
-            <td>$<%= (r.m_amount*t.mprice+r.s_amount*t.sprice+r.n_amount*t.nprice) %></td>
-            <td>
-            <% if r.pickedup %>
-              Picked Up
-            <% else %>
-              <%= link_to 'Mark Tickets as picked up', ticket_pickup_path(@event.id, r.id) %>
-            <% end %>
-            </td>
+            <th>Sort</th>
+            <th>Member Name</th>
+            <th>Member Tickets</th>
+            <th>Non-Member Tickets</th>
+            <th>Shared Tickets</th>
+            <th>Cost</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @all_reseverations.each do |r| %>
+            <tr>
+              <% t = r.ticket %>
+              <td><%= t.tname %></td>
+              <td><%= r.user.full_name %></td>
+              <td><%= r.m_amount %></td>
+              <td><%= r.n_amount %></td>
+              <td><%= r.s_amount %></td>
+              <td>$<%= (r.m_amount*t.mprice+r.s_amount*t.sprice+r.n_amount*t.nprice) %></td>
+              <td>
+              <% if r.pickedup %>
+                Picked Up
+              <% else %>
+                <%= link_to 'Mark Tickets as picked up', ticket_pickup_path(@event.id, r.id) %>
+              <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>None</p>
+    <% end %>
 
   <% end %>
 <% else %>
