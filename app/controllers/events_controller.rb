@@ -453,7 +453,9 @@ class EventsController < ApplicationController
   end
 
   def get_reservations
-    @reservations = current_user.ticket_reservations.where(:event_id => @event.id)
+    if user_signed_in?
+      @reservations = current_user.ticket_reservations.where(:event_id => @event.id)
+    end
   end
 
   def set_admin
