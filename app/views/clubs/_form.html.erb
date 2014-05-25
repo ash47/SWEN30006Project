@@ -1,11 +1,16 @@
-<%= form_for(@club) do |f| %>
-  <%= render 'form_errors' %>
+<%= simple_form_for(@club) do |f| %>
+	<% if @club.errors.any? %>
+	  <div id="error_explanation">
+	    <h2><%= pluralize(@club.errors.count, "error") %> prohibited this club from being saved:</h2>
 
-  <div class="field">
-    <%= f.label :uni_registration_id %><br>
-    <%= f.text_field :uni_registration_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Verify" %>
-  </div>
+	    <ul>
+	    <% @club.errors.full_messages.each do |msg| %>
+	      <li><%= msg %></li>
+	    <% end %>
+	    </ul>
+	  </div>
+	<% end %>
+
+  <%= f.input :uni_registration_id %>
+  <%= f.button :submit, wrapper_html: { class: 'btn btn-primary', } %>
 <% end %>
