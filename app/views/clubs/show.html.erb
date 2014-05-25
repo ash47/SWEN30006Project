@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
+Networks:<br>
 <% @club.networks.each do |network| %>
   <%= link_to network.name, network_page_path(network) %><br>
 <% end %>
+
+<br>
+
+<%= link_to 'Create Network', network_create_path(@club) %>
 
 <h1>
   <%= @club.name %>
