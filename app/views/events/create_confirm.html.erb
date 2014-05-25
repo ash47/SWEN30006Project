@@ -27,6 +27,9 @@
   <p><strong>No Tickets Created</strong></p>
 <% end %>
 
+<% if @imagea %><%= image_tag @imagea %><br><br><% end %>
+<% if @imageb %><%= image_tag @imageb %><br><br><% end %>
+<% if @imagec %><%= image_tag @imagec %><br><br><% end %>
 
 <%= form_tag(create_event_path(@club, Event.stage_doit), method: "get") do %>
   <%= submit_tag("Back", name: 'back') %>

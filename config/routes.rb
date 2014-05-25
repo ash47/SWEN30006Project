@@ -23,6 +23,7 @@ ClubBiz::Application.routes.draw do
   # Events stuff
   get '/events', to: 'events#index', as: 'search_events'
   get '/events/create/:id/:stage', to: 'events#create', as: 'create_event'
+  post '/events/create/:id/:stage', to: 'events#create', as: 'create_event_post'
   get '/events/:id', to: 'events#show', as: 'event'
   get '/events/:id/tickets', to: 'events#tickets', as: 'reserve_tickets'
   get '/events/:id/markticket/:ticketID', to: 'events#mark_ticket', as: 'ticket_pickup'

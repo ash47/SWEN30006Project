@@ -4,6 +4,8 @@
   <p><strong><%= @notice %></strong></p>
 <% end %>
 
+<% if @event[:imagea] %><%= image_tag @event[:imagea] %><br><br><% end %>
+
 <p><%= @event.description %></p>
 <p><%= @event.location %></p>
 <p>Date: <%= @event.start_time.strftime('%Y/%m/%d') %></p>
