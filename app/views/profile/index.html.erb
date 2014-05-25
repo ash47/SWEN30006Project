@@ -4,9 +4,28 @@
 
 <h2>Messages</h2>
 <% if @notifications > 0 %>
-    <% @messages.each do |message| %>
-        <p><%= message.message %></p>
-    <% end %>
+  <% @messages.each do |message| %>
+    <p><%= link_to '[Delete]', delete_message_path(message) %> <%= message.message %></p>
+  <% end %>
 <% else %>
-    <p>You have no new messages</p>
+  <p>You have no new messages</p>
+<% end %>
+
+<% if @awaiting_verification.count > 0 %>
+  <strong>These clubs of yours are not verified yet:</strong>
+  <% @awaiting_verification.each do |club| %>
+    <p><%= club.uni_registration_id %></p>
+  <% end %>
+<% end %>
+
+<% if @memberships.count > 0 %>
+  <strong>Clubs you are a member of:</strong>
+  <% @memberships.each do |m| %>
+    <% club = m.club %>
+    <% if club %>
+      <p><%= club.uni_registration_id %> - <%= club.name %></p>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>You are not a member of any clubs D:</p>
 <% end %>

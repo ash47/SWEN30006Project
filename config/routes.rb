@@ -27,6 +27,7 @@ ClubBiz::Application.routes.draw do
 
   # Profile stuff
   get '/profile', to: 'profile#index', as: 'profile'
+  get '/messages/:id/delete', to: 'profile#delete_message', as: 'delete_message'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
