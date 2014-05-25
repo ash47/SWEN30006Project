@@ -1,8 +1,7 @@
 class ProfileController < ApplicationController
-  def index
-    before_filter :authenticate_user!
+  before_filter :authenticate_user!
 
-    
+  def index
     @messages = current_user.messages
     @memberships = current_user.memberships.all
     @awaiting_verification = current_user.clubs.find(:all, :conditions => {:confirmed => false})
