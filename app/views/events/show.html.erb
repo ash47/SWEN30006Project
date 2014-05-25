@@ -75,6 +75,10 @@
 <% end %>
 
 <p><strong>Comments:</strong></p>
-<% @comments.each do |comment| %>
-  <p><strong><%= comment.user.full_name %>:</strong> <%= comment.message %></p>
+<% if @comments.length > 0 %>
+  <% @comments.each do |comment| %>
+    <p><strong><%= comment.user.full_name %>:</strong> <%= comment.message %></p>
+  <% end %>
+<% else %>
+  <p>No comments</p>
 <% end %>

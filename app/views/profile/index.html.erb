@@ -29,12 +29,14 @@
 
 <% if @memberships.count > 0 %>
   <strong>Clubs you are a member of:</strong>
-  <% @memberships.each do |m| %>
-    <% club = m.club %>
-    <% if club %>
-      <p><%= club.uni_registration_id %> - <%= club.name %></p>
+  <ul>
+    <% @memberships.each do |m| %>
+      <% club = m.club %>
+      <% if club %>
+        <li><%= link_to club.name, club_path(m) %></li>
+      <% end %>
     <% end %>
-  <% end %>
+  </ul>
 <% else %>
   <p>You are not a member of any clubs D:</p>
 <% end %>
