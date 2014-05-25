@@ -1,9 +1,8 @@
 class ProfileController < ApplicationController
   def index
-    if not user_signed_in?
-      redirect_to root_path
-      return
-    end
+    before_filter :authenticate_user!
+
+    
     @messages = current_user.messages
     @memberships = current_user.memberships.all
     @awaiting_verification = current_user.clubs.find(:all, :conditions => {:confirmed => false})

@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   before_action :get_event, only: [:show, :tickets, :mark_ticket]
   before_action :get_club, only: [:mark_ticket, :show]
   before_action :set_admin, only: [:create, :show, :mark_ticket]
+  before_filter :authenticate_user!
   before_filter :must_be_admin, only: [:create, :mark_ticket]
   before_action :get_notice, only: [:create, :show]
   before_action :get_reservations, only: [:show, :tickets]

@@ -2,6 +2,7 @@ class NetworkController < ApplicationController
   before_action :set_club, only: [:create]
   before_action :set_network, only: [:show]
   before_action :set_admin, only: [:create]
+  before_filter :authenticate_user!
   before_filter :must_be_admin, only: [:create]
 
   def create

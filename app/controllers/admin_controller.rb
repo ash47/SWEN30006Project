@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
   before_action :get_user, only: [:become_admin, :remove_admin]
   before_action :find_unverified_clubs, only: [:index]
+  before_filter :authenticate_user!
   before_action :get_club, only: [:verify]
 
   def index
