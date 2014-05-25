@@ -1,5 +1,5 @@
 class ClubsController < ApplicationController
-  before_action :get_user, only: [:create, :join, :index, :show, :leave, :edit, :destroy]
+  before_action :get_user, only: [:create, :join, :index, :show, :leave, :edit, :destroy, :update]
   before_action :set_club, only: [:show, :edit, :update, :destroy, :join, :leave]
   before_filter :must_be_admin, only: [:edit, :update, :destroy]
 
