@@ -13,7 +13,9 @@ class EventsController < ApplicationController
   end
 
   def show
-
+    if @is_club_admin
+      @all_reseverations = @event.ticket_reservations
+    end
   end
 
   def mark_ticket
@@ -166,12 +168,16 @@ class EventsController < ApplicationController
       session.delete(:event_title)
       session.delete(:event_description)
       session.delete(:event_duration)
+      session.delete(:event_location)
       session.delete(:event_year)
       session.delete(:event_month)
       session.delete(:event_day)
       session.delete(:event_hour)
       session.delete(:event_minute)
       session.delete(:event_tickets)
+      session.delete(:event_imagea)
+      session.delete(:event_imageb)
+      session.delete(:event_imagec)
 
       # Redirect to details page
       redirect_to create_event_path(@club, Event.stage_details)
@@ -240,6 +246,21 @@ class EventsController < ApplicationController
         session[:event_minute] = params[:event_time]['time(5i)'].to_i
       end
     end
+
+    # Images
+    if params[:imagea]
+      session[:event_imagea] = store_file params[:imagea]
+    end
+    if params[:imageb]
+      session[:event_imageb] = store_file params[:imageb]
+    end
+    if params[:imagec]
+      session[:event_imagec] = store_file params[:imagec]
+    end
+
+    @imagea = session[:event_imagea]
+    @imageb = session[:event_imageb]
+    @imagec = session[:event_imagec]
 
     # Ensure there is a ticket storage
     session[:event_tickets] ||= []
@@ -386,7 +407,10 @@ class EventsController < ApplicationController
         :duration => @event_duration,
         :description => @event_description,
         :name => @event_title,
-        :location => @event_location
+        :location => @event_location,
+        :imagea => @imagea,
+        :imageb => @imageb,
+        :imagec => @imagec
       })
 
       # Attempt to save the new event
@@ -463,10 +487,6 @@ class EventsController < ApplicationController
     if user_signed_in?
       @is_club_member = current_user.memberships.exists?(:club_id => @club.id)
       @is_club_admin = current_user.memberships.exists?(:club_id => @club.id, :rank => User.rank_admin)
-
-      if @is_club_admin
-        @all_reseverations = @event.ticket_reservations
-      end
     end
   end
 
@@ -475,6 +495,23 @@ class EventsController < ApplicationController
       redirect_to @club, notice: 'You need to be an admin to do this.'
       return false
     end
+  end
+
+  def file_storage_location filename
+    File.join(Rails.root, 'public', 'attachments', filename)
+  end
+
+  def store_file uploaded_file
+    r = {}
+
+    r[:original_filename] = uploaded_file.original_filename
+    r[:size]              = uploaded_file.size
+    r[:content_type]      = uploaded_file.content_type
+    r[:filename]          = Digest::SHA1.hexdigest(Time.now.to_s) + r[:original_filename]
+    r[:loc]               = '/attachments/'+r[:filename]
+    File.open(file_storage_location(r[:filename]), "wb") {|f| f.write uploaded_file.read }
+
+    return r[:loc]
   end
 
   def is_valid_stage stage

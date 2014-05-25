@@ -1,6 +1,6 @@
 <h2>details</h2>
 
-<%= form_tag(create_event_path(@club, Event.stage_tickets), method: "get") do %>
+<%= form_tag(create_event_post_path(@club, Event.stage_tickets), method: "post", multipart: true) do %>
   <%= label_tag(:event_title, "Event Title:") %><br>
   <%= text_field_tag(:event_title, @event_title) %>
   <br>
@@ -18,6 +18,14 @@
   <br>
   <%= label_tag(:event_duration, "Event Duration (hours):") %><br>
   <%= text_field_tag(:event_duration, @event_duration) %>
+  <br>
+  <strong>Images:</strong>
+  <%= file_field_tag :imagea %><br>
+  <% if @imagea %><%= image_tag @imagea %><br><br><% end %>
+  <%= file_field_tag :imageb %><br>
+  <% if @imageb %><%= image_tag @imageb %><br><br><% end %>
+  <%= file_field_tag :imagec %><br>
+  <% if @imagec %><%= image_tag @imagec %><br><br><% end %>
   <br><br>
   <%= submit_tag("Cancel", name: 'cancel', confirm: 'Are you sure you want to cancel making a new event?') %>
   <%= submit_tag("Next") %>
