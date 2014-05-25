@@ -54,7 +54,9 @@
     <strong>Clubs you are a member of:</strong>
     <% @memberships.each do |m| %>
       <% club = m.club %>
-      <p><%= club.uni_registration_id %> - <%= club.name %></p>
+      <% if club %>
+        <p><%= club.uni_registration_id %> - <%= club.name %></p>
+      <% end %>
     <% end %>
   <% else %>
     <p>You are not a member of any clubs D:</p>

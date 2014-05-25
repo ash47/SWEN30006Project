@@ -25,6 +25,10 @@ ClubBiz::Application.routes.draw do
   get '/events/create/:id/:stage', to: 'events#create', as: 'create_event'
   get '/events/:id', to: 'events#show', as: 'event'
 
+  # Profile stuff
+  get '/profile', to: 'profile#index', as: 'profile'
+  get '/messages/:id/delete', to: 'profile#delete_message', as: 'delete_message'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

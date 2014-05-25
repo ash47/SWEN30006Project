@@ -19,6 +19,14 @@
     <%= f.text_field :website %>
   </div>
   <div class="actions">
-    <%= f.submit "Verify" %>
+    <%= f.submit "Verify", name: 'verify' %>
+  </div>
+
+  <div class="field">
+    <%= label_tag(:reason, "Reason for rejection") %><br>
+    <%= text_field_tag(:reason) %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Reject", name: 'reject' %>
   </div>
 <% end %>

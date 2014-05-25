@@ -17,6 +17,7 @@ class EventsController < ApplicationController
     # Ensure the club is verified
     if not @club.confirmed
       redirect_to @club, notice: 'Your club needs to be verified before you can create events.'
+      return
     end
 
     # Grab the current stage
