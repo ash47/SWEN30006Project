@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525115355) do
+ActiveRecord::Schema.define(version: 20140525131635) do
 
   create_table "club_networks", force: true do |t|
     t.integer "club_id"
@@ -30,6 +30,12 @@ ActiveRecord::Schema.define(version: 20140525115355) do
   end
 
   add_index "clubs", ["uni_registration_id"], name: "index_clubs_on_uni_registration_id", unique: true
+
+  create_table "comments", force: true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+    t.string  "message"
+  end
 
   create_table "events", force: true do |t|
     t.string   "name"

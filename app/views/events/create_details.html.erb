@@ -1,14 +1,21 @@
 <h3>Details</h3>
 
-<%= simple_form_for(create_event_post_path(@club, Event.stage_tickets), defaults: { input_html: { :class => "form-group form-control" } }, html: { class: 'form' },method: "post", multipart: true) do |f| %>
-  <%= f.input :event_title %>
-  <%= f.input :event_description %>
-  <%= f.input :event_location %>
-  <%= f.input :event_date, as: :date %>
-  <%= f.input :event_time, as: :time %>
-  <%= f.input :event_duration, label: "Event duration (hours)", collection: 1..120 %>
-
-  <strong>Images</strong>
+<%= form_tag(create_event_post_path(@club, Event.stage_tickets), method: "post", multipart: true) do %>
+  <%= label_tag(:event_title, "Event Title:") %><br>
+  <%= text_field_tag(:event_title, @event_title, {class: 'form-group form-control'}) %>
+  <%= label_tag(:event_description, "Description:") %><br>
+  <%= text_area_tag(:event_description, @event_description, {class: 'form-group form-control'}) %>
+  <%= label_tag(:event_location, "Event Location:") %><br>
+  <%= text_field_tag(:event_location, @event_location, {class: 'form-group form-control'}) %>
+  <%= label_tag(:event_date, "Date:") %><br>
+  <%= date_select(:event_date, :date, {selected: @event_time}) %>
+  <br>
+  <%= label_tag(:event_time, "Start Time:") %><br>
+  <%= time_select(:event_time, :time, {selected: @event_time}) %>
+  <br>
+  <%= label_tag(:event_duration, "Event Duration (hours):") %><br>
+  <%= text_field_tag(:event_duration, @event_duration, {class: 'form-group form-control'}) %>
+  <strong>Images:</strong>
   <%= file_field_tag :imagea %><br>
   <% if @imagea %><%= image_tag @imagea %><br><br><% end %>
   <%= file_field_tag :imageb %><br>
