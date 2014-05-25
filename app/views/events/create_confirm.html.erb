@@ -15,6 +15,20 @@
 <p><strong>Duration:</strong></p>
 <p><%= @event_duration %></p>
 
+<% if @event_tickets.length > 0 %>
+  <% @event_tickets.each do |ticket| %>
+    <br><br>
+    <p><strong>Ticket Name: </strong><%= ticket[:tname] %></p>
+    <p><strong>Member Price: </strong><%= ticket[:mprice] %></p>
+    <p><strong>Non-Member Price: </strong><%= ticket[:nprice] %></p>
+    <p><strong>Shared Member Price: </strong><%= ticket[:sprice] %></p>
+    <p><strong>Total Tickets: </strong><%= ticket[:total] %></p>
+  <% end %>
+<% else %>
+  <p><strong>No Tickets Created</strong></p>
+<% end %>
+
+
 <%= form_tag(create_event_path(@club, Event.stage_doit), method: "get") do %>
   <%= submit_tag("Back", name: 'back') %>
   <%= submit_tag("Confirm") %>

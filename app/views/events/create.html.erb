@@ -2,6 +2,10 @@
 
 <%= render template: 'events/create_nav' %>
 
+<% if @notice %>
+  <p><strong><%= @notice %></strong></p>
+<% end %>
+
 <% if @stage == Event.stage_details %>
   <%= render template: 'events/create_details' %>
 <% end %>

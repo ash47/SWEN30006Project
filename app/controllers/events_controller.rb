@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   before_action :get_user, only: [:create]
   before_action :set_club, only: [:create]
   before_filter :must_be_admin, only: [:create]
+  before_action :get_notice, only: [:create]
 
   def index
   end
@@ -77,6 +78,92 @@ class EventsController < ApplicationController
       end
     end
 
+    # Ensure there is a ticket storage
+    session[:event_tickets] ||= []
+
+    # Adding Tickets
+    if params[:addticket]
+      # User is trying to add a new ticket
+
+      # Make sure they are on the correct stage
+      if @stage == Event.stage_confirm
+        # Grab ticket info
+        tname = params[:event_ticket_name]
+        mprice = params[:event_ticket_mprice].to_i
+        nprice = params[:event_ticket_nprice].to_i
+        sprice = params[:event_ticket_sprice].to_i
+        total = params[:event_ticket_total].to_i
+
+        # Validate data
+
+
+
+
+        # Add the ticket to their session
+        session[:event_tickets].push({
+          tname: tname,
+          mprice: mprice,
+          nprice: nprice,
+          sprice: sprice,
+          total: total
+        })
+
+        # Redirect back to ticket page
+        redirect_to create_event_path(@club, Event.stage_tickets)
+        return
+      end
+    end
+
+    # Updating Tickets
+    if params[:updateticket]
+      index = params[:index].to_i
+
+      if session[:event_tickets][index]
+        # Grab ticket info
+        tname = params['event_ticket_name'+index.to_s]
+        mprice = params['event_ticket_mprice'+index.to_s].to_i
+        nprice = params['event_ticket_nprice'+index.to_s].to_i
+        sprice = params['event_ticket_sprice'+index.to_s].to_i
+        total = params['event_ticket_total'+index.to_s].to_i
+
+        # Validate data
+
+        asd = session[:event_tickets][index][:tname]
+
+
+        # Update the ticket info
+        session[:event_tickets][index] = {
+          tname: tname,
+          mprice: mprice,
+          nprice: nprice,
+          sprice: sprice,
+          total: total
+        }
+
+        # Redirect back to tickets
+        redirect_to create_event_path(@club, Event.stage_tickets, notice: 'Ticket was updated.'+asd)
+        return
+      else
+        # Ticket index is unknown, can't update :(
+        redirect_to create_event_path(@club, Event.stage_tickets, notice: 'Failed to update unknown ticket.')
+        return
+      end
+    end
+
+    # Remove tickets
+    if params[:removeticket]
+      index = params[:index].to_i
+
+      if session[:event_tickets][index]
+        session[:event_tickets].delete_at(index)
+        redirect_to create_event_path(@club, Event.stage_tickets, notice: 'Ticket was removed.')
+        return
+      else
+        redirect_to create_event_path(@club, Event.stage_tickets, notice: 'Failed to find that ticket.')
+        return
+      end
+    end
+
     # Grab them
     @event_title = session[:event_title]
     @event_description = session[:event_description]
@@ -86,8 +173,10 @@ class EventsController < ApplicationController
     else
       @event_time = Time.now
     end
+    @event_tickets = session[:event_tickets]
 
     # Create the event
+
   end
 
   private
@@ -111,6 +200,10 @@ class EventsController < ApplicationController
     if user_signed_in?
       @user = User.find(current_user.id)
     end
+  end
+
+  def get_notice
+    @notice = params[:notice]
   end
 
   def must_be_admin

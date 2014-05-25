@@ -1,6 +1,47 @@
-<h2>tickets</h2>
+<h2>Tickets</h2>
+
+<% @event_tickets.each.with_index(0) do |ticket, index| %>
+  <%= form_tag(create_event_path(@club, Event.stage_confirm), method: "get") do %>
+    <%= label_tag('event_ticket_name'+index.to_s, "Ticket Name (eg: General Admission)") %><br>
+    <%= text_field_tag('event_ticket_name'+index.to_s, ticket[:tname]) %>
+    <br>
+    <%= label_tag('event_ticket_mprice'+index.to_s, "Member Price ($)") %><br>
+    <%= text_field_tag('event_ticket_mprice'+index.to_s, ticket[:mprice]) %>
+    <br>
+    <%= label_tag('event_ticket_nprice'+index.to_s, "Non-Member Price ($)") %><br>
+    <%= text_field_tag('event_ticket_nprice'+index.to_s, ticket[:nprice]) %>
+    <br>
+    <%= label_tag('event_ticket_sprice'+index.to_s, "Shared Club Member Price ($)") %><br>
+    <%= text_field_tag('event_ticket_sprice'+index.to_s, ticket[:sprice]) %>
+    <br>
+    <%= label_tag('event_ticket_total'+index.to_s, "Total number of tickets") %><br>
+    <%= text_field_tag('event_ticket_total'+index.to_s, ticket[:total]) %>
+    <br>
+    <%= hidden_field_tag(:index, index) %>
+    <%= submit_tag("Remove Ticket", name: 'removeticket', confirm: 'Are you sure you want to remove this ticket?') %>
+    <%= submit_tag("Update Ticket", name: 'updateticket') %>
+  <% end %>
+<% end %>
+
 
 <%= form_tag(create_event_path(@club, Event.stage_confirm), method: "get") do %>
+  <%= label_tag(:event_ticket_name, "Ticket Name (eg: General Admission)") %><br>
+  <%= text_field_tag(:event_ticket_name) %>
+  <br>
+  <%= label_tag(:event_ticket_mprice, "Member Price ($)") %><br>
+  <%= text_field_tag(:event_ticket_mprice) %>
+  <br>
+  <%= label_tag(:event_ticket_nprice, "Non-Member Price ($)") %><br>
+  <%= text_field_tag(:event_ticket_nprice) %>
+  <br>
+  <%= label_tag(:event_ticket_sprice, "Shared Club Member Price ($)") %><br>
+  <%= text_field_tag(:event_ticket_sprice) %>
+  <br>
+  <%= label_tag(:event_ticket_total, "Total number of tickets") %><br>
+  <%= text_field_tag(:event_ticket_total) %>
+  <br>
+  <%= submit_tag("Add Ticket", name: 'addticket') %>
+  <br><br>
   <%= submit_tag("Back", name: 'back') %>
   <%= submit_tag("Next") %>
 <% end %>
