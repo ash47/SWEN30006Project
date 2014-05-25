@@ -40,6 +40,7 @@ class ClubsController < ApplicationController
     # Assign this user as an admin of the club
     @user.memberships.create(:club => @club, :rank => User.rank_admin)
 
+
     respond_to do |format|
       if @club.save
         format.html { redirect_to @club, notice: 'Club is now awaiting verification.' }

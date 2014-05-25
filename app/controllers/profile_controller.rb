@@ -7,6 +7,14 @@ class ProfileController < ApplicationController
     @messages = current_user.messages
     @memberships = current_user.memberships.all
     @awaiting_verification = current_user.clubs.find(:all, :conditions => {:confirmed => false})
+
+    # Mark all messages as read
+    @messages.each do |message|
+      if message.read == false
+        message.read = true
+        message.save
+      end
+    end
   end
 
   def delete_message

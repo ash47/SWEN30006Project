@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     end
 
     if user_signed_in?
-      @notifications = current_user.messages.count
+      @notifications = current_user.messages.where(:read => false).count
     end
   end
 
