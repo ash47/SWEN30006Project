@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
     has_many :tickets
     has_many :ticket_reservations
 
+    has_many :comments
+
     validates :name, presence: :true
     validates :description, presence: :true
     validates :duration, presence: :true

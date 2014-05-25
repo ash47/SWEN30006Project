@@ -21,6 +21,29 @@ class EventsController < ApplicationController
     if @is_club_admin
       @all_reseverations = @event.ticket_reservations
     end
+
+    if user_signed_in?
+      if params[:comment]
+        text = params[:text]
+
+        # Create the comment
+        c = Comment.create({
+          user_id: current_user.id,
+          event_id: @event.id,
+          message: text
+        })
+
+        # Attempt to save the comment
+        if c.save()
+          redirect_to event_path(@event, notice: 'Added your comment.')
+        else
+          redirect_to event_path(@event, notice: 'Comment failed to save.')
+        end
+      end
+    end
+
+    # Load comments
+    @comments = Comment.where(:event_id => @event.id)
   end
 
   def mark_ticket
