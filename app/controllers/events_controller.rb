@@ -76,6 +76,11 @@ class EventsController < ApplicationController
       session[:event_duration] = params[:event_duration].to_i
     end
 
+    # Event Location
+    if params[:event_location] and params[:event_location].length > 0
+      session[:event_location] = params[:event_location]
+    end
+
     # Date
     if params[:event_date]
       if params[:event_date]['date(1i)']
@@ -227,6 +232,7 @@ class EventsController < ApplicationController
     @event_title = session[:event_title]
     @event_description = session[:event_description]
     @event_duration = session[:event_duration]
+    @event_location = session[:event_location]
     if session[:event_year] and session[:event_month] and session[:event_day] and session[:event_hour] and session[:event_minute]
       @event_time = Time.new(session[:event_year], session[:event_month], session[:event_day], session[:event_hour], session[:event_minute])
     else
@@ -245,7 +251,8 @@ class EventsController < ApplicationController
         :start_time => @event_time,
         :duration => @event_duration,
         :description => @event_description,
-        :name => @event_title
+        :name => @event_title,
+        :location => @event_location
       })
 
       # Attempt to save the new event

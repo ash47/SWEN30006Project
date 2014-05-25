@@ -7,6 +7,9 @@
   <%= label_tag(:event_description, "Description:") %><br>
   <%= text_area_tag(:event_description, @event_description) %>
   <br>
+  <%= label_tag(:event_location, "Event Location:") %><br>
+  <%= text_field_tag(:event_location, @event_location) %>
+  <br>
   <%= label_tag(:event_date, "Date:") %><br>
   <%= date_select(:event_date, :date, {selected: @event_time}) %>
   <br>
