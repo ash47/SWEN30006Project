@@ -15,6 +15,9 @@ class ProfileController < ApplicationController
         message.save
       end
     end
+
+    # Grab ticket reservations
+    @reservations = current_user.ticket_reservations
   end
 
   def delete_message
