@@ -1,47 +1,5 @@
 <h1>Listing clubs</h1>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Website</th>
-      <th>Uni registration</th>
-      <% if user_signed_in? %>
-        <th>Your Rank</th>
-      <% end %>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @clubs.each do |club| %>
-      <tr>
-        <td><%= club.name %></td>
-        <td><%= club.description %></td>
-        <td><%= club.website %></td>
-        <td><%= club.uni_registration_id %></td>
-        <% if user_signed_in? %>
-          <% membership = club.memberships.find_by(user_id: @user.id) %>
-          <% if membership %>
-            <% rank = club.memberships.find_by(user_id: @user.id).rank %>
-            <td><%= rank %></td>
-          <% else %>
-            <td>Not a member</td>
-          <% end %>
-        <% end %>
-        <td><%= link_to 'Show', club %></td>
-        <% if rank and rank == User.rank_admin %>
-          <td><%= link_to 'Edit', edit_club_path(club) %></td>
-          <td><%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
 <% if user_signed_in? %>
   <% if @awaiting_verification.count > 0 %>
     <strong>These clubs of yours are not verified yet:</strong>
@@ -52,19 +10,62 @@
 
   <% if @memberships.count > 0 %>
     <strong>Clubs you are a member of:</strong>
-    <% @memberships.each do |m| %>
-      <% club = m.club %>
-      <% if club %>
-        <p><%= club.uni_registration_id %> - <%= club.name %></p>
+    <ul>
+      <% @memberships.each do |m| %>
+        <% club = m.club %>
+        <% if club %>
+          <li><%= link_to club.name, club_path(m) %></li>
+        <% end %>
       <% end %>
-    <% end %>
+    </ul>
   <% else %>
     <p>You are not a member of any clubs D:</p>
   <% end %>
 <% end %>
 
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <% if user_signed_in? %>
+        <th>Your Rank</th>
+      <% end %>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clubs.each do |club| %>
+      <tr>
+        <td><%= link_to club.name, club_path(club) %></td>
+        <td><%= club.description %></td>
+        <% if user_signed_in? %>
+          <% membership = club.memberships.find_by(user_id: @user.id) %>
+          <% if membership %>
+            <% rank = club.memberships.find_by(user_id: @user.id).rank %>
+            <% if rank and rank == User.rank_admin %>
+              <td>Admin</td>
+
+            <% elsif rank and rank == User.rank_member %>
+              <td>Member</td>
+            <% end %>
+          <% else %>
+            <td>Not a member</td>
+          <% end %>
+        <% end %>
+        <td><%= link_to 'Show', club %>
+        <% if rank and rank == User.rank_admin %>
+          <%= link_to 'Edit', edit_club_path(club) %>
+          <%= link_to 'Destroy', club, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <br>
 
 <% if user_signed_in? %>
-  <%= link_to 'Register Club', new_club_path %>
+  <%= link_to 'Register Club', new_club_path, class: 'btn btn-primary' %>
 <% end %>

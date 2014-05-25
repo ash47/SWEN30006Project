@@ -24,13 +24,17 @@ class User < ActiveRecord::Base
   	return first_name + " " + last_name
   end
 
+  def self.ranks
+    {"admin" => 3, "member" => 1}
+  end
+  
   # Admin rank on clubs
   def self.rank_admin
-    3
+    ranks["admin"]
   end
 
   # User rank on clubs
   def self.rank_member
-    1
+    ranks["member"]
   end
 end
