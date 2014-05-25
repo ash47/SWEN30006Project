@@ -1,19 +1,15 @@
 <h2>confirm</h2>
 
-<p><strong>Event Title:</strong></p>
-<p><%= @event_title %></p>
+<p><strong>Event Title: </strong><%= @event_title %></p>
 
 <p><strong>Event Description:</strong></p>
 <p><%= @event_description %></p>
 
-<p><strong>Date:</strong></p>
-<p><%= @event_time.strftime('%Y/%m/%d') %></p>
+<p><strong>Date: </strong><%= @event_time.strftime('%Y/%m/%d') %></p>
 
-<p><strong>Start Time:</strong></p>
-<p><%= @event_time.strftime('%H:%M') %></p>
+<p><strong>Start Time: </strong><%= @event_time.strftime('%H:%M') %></p>
 
-<p><strong>Duration:</strong></p>
-<p><%= @event_duration %></p>
+<p><strong>Duration: </strong><%= @event_duration %></p>
 
 <% if @event_tickets.length > 0 %>
   <% @event_tickets.each do |ticket| %>
