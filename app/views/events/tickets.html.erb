@@ -1,0 +1,56 @@
+<% if @tickets.length > 0 %>
+  <%= form_tag(reserve_tickets_path(@event), method: "get") do %>
+    <% @tickets.each do |ticket| %>
+      <br><br>
+      <p><strong><%= ticket[:tname] %></strong>
+      <%= ticket[:remaining] %> Remaining -
+      <%= ticket[:pickup] %></p>
+
+      <% now = Time.now %>
+      <% open = now >= ticket[:opendate] and now <= ticket[:closedate] %>
+
+      <table class="table table-striped">
+        <tbody>
+        <tr>
+          <td>Member</td>
+          <td>$<%= ticket[:mprice] %></td>
+          <td>
+            <% if open %>
+              <%= text_field_tag(:m_amount) %>
+            <% else %>
+              Closed
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>Non-Member</td>
+          <td>$<%= ticket[:nprice] %></td>
+          <td>
+            <% if open %>
+              <%= text_field_tag(:n_amount) %>
+            <% else %>
+              Closed
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>Shared Member</td>
+          <td>$<%= ticket[:sprice] %></td>
+          <td>
+            <% if open %>
+              <%= text_field_tag(:s_amount) %>
+            <% else %>
+              Closed
+            <% end %>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    <% end %>
+
+    <%= submit_tag("Cancel", name: 'cancel') %>
+    <%= submit_tag("Reserve") %>
+  <% end %>
+<% else %>
+  <p><strong>No Tickets Created</strong></p>
+<% end %>

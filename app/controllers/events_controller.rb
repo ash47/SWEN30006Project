@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_action :set_club, only: [:create]
   before_filter :must_be_admin, only: [:create]
   before_action :get_notice, only: [:create]
-  before_action :get_event, only: [:show]
+  before_action :get_event, only: [:show, :tickets]
 
   def index
     @events = Event.all
@@ -11,6 +11,10 @@ class EventsController < ApplicationController
 
   def show
     @club = @event.club
+  end
+
+  def tickets
+    @tickets = @event.tickets
   end
 
   def create
