@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20140525100806) do
   create_table "club_networks", force: true do |t|
     t.integer "club_id"
     t.integer "network_id"
+    t.boolean "verified",   default: false
   end
 
   create_table "clubs", force: true do |t|
