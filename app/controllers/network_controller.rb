@@ -23,7 +23,8 @@ class NetworkController < ApplicationController
         # Add this club to that network
         nc = ClubNetwork.create({
           club_id: @club.id,
-          network_id: n.id
+          network_id: n.id,
+          verified: true
         })
 
         # Attempt to save this club into the network
@@ -41,7 +42,38 @@ class NetworkController < ApplicationController
   end
 
   def show
+    # Check if they tried to invite someone
+    if params[:invite]
+      @club = Club.find(params[:club_id])
 
+
+      # Check if they are already part of the network
+      taken = false
+      @clubs.each do |club|
+        if club.id == @club.id
+          taken = true
+        end
+      end
+      @u_clubs.each do |club|
+        if club.id == @club.id
+          taken = true
+        end
+      end
+
+      if taken
+        redirect_to network_page_path(@network), notice: 'This club has already been invited.'
+        return
+      end
+
+      # Send out the invite
+      nc = ClubNetwork.create({
+        club_id: @club.id,
+        network_id: @network.id,
+        verified: false
+      })
+
+      redirect_to network_page_path(@network), notice: 'The club was invited.'
+    end
   end
 
   private
@@ -52,6 +84,7 @@ class NetworkController < ApplicationController
     def set_network
       @network = Network.find(params[:networkID])
       @clubs = @network.clubs
+      @u_clubs = @network.u_clubs
 
       # Set admin flag
       @is_admin = @network.memberships.exists?(:user_id => current_user.id, :rank => User.rank_admin)
