@@ -45,8 +45,6 @@ class NetworkController < ApplicationController
     # Check if they tried to invite someone
     if params[:invite]
       @club = Club.find(params[:club_id])
-
-
       # Check if they are already part of the network
       taken = false
       @clubs.each do |club|
@@ -85,6 +83,7 @@ class NetworkController < ApplicationController
       @network = Network.find(params[:networkID])
       @clubs = @network.clubs
       @u_clubs = @network.u_clubs
+      @events = @network.events
 
       # Set admin flag
       @is_admin = @network.memberships.exists?(:user_id => current_user.id, :rank => User.rank_admin)

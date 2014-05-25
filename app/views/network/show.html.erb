@@ -18,3 +18,36 @@
     <%= submit_tag "Invite", name: 'invite' %>
   <% end %>
 <% end %>
+
+<h2>Shared Events</h2>
+<table class="table table-hover">
+  <thead>
+    <th>Event</th>
+    <th>Organising Club</th>
+    <th>Location</th>
+    <th>Date</th>
+    <th>Time</th>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+      <% club = event.club %>
+      <tr>
+        <td>
+          <%= link_to event.name, event_path(event) %>
+        </td>
+        <td>
+          <%= link_to club.name, club %>
+        </td>
+        <td>
+          <%= event.location %>
+        </td>
+        <td>
+          <%= event.start_time.strftime('%Y/%m/%d') %>
+        </td>
+        <td>
+          <%= event.start_time.strftime('%H:%M') %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
