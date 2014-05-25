@@ -113,10 +113,26 @@ class EventsController < ApplicationController
       if @stage == Event.stage_confirm
         # Grab ticket info
         tname = params[:event_ticket_name]
-        mprice = params[:event_ticket_mprice].to_i
-        nprice = params[:event_ticket_nprice].to_i
-        sprice = params[:event_ticket_sprice].to_i
+        mprice = params[:event_ticket_mprice].to_f.round(2)
+        nprice = params[:event_ticket_nprice].to_f.round(2)
+        sprice = params[:event_ticket_sprice].to_f.round(2)
         total = params[:event_ticket_total].to_i
+        pickup = params[:event_ticket_pickup]
+
+        # Opening time
+        open = params[:event_ticket_open]
+        openyear = open['date(1i)']
+        openmonth = open['date(2i)']
+        openday = open['date(3i)']
+        opendate = Time.new(openyear, openmonth, openday)
+
+        # Closing time
+        close = params[:event_ticket_close]
+        closeyear = open['date(1i)']
+        closemonth = open['date(2i)']
+        closeday = open['date(3i)']
+        closedate = Time.new(closeyear, closemonth, closeday)
+
 
         # Validate data
 
@@ -129,7 +145,10 @@ class EventsController < ApplicationController
           mprice: mprice,
           nprice: nprice,
           sprice: sprice,
-          total: total
+          total: total,
+          pickup: pickup,
+          opendate: opendate,
+          closedate: closedate
         })
 
         # Redirect back to ticket page
@@ -145,10 +164,25 @@ class EventsController < ApplicationController
       if session[:event_tickets][index]
         # Grab ticket info
         tname = params['event_ticket_name'+index.to_s]
-        mprice = params['event_ticket_mprice'+index.to_s].to_i
-        nprice = params['event_ticket_nprice'+index.to_s].to_i
-        sprice = params['event_ticket_sprice'+index.to_s].to_i
+        mprice = params['event_ticket_mprice'+index.to_s].to_f.round(2)
+        nprice = params['event_ticket_nprice'+index.to_s].to_f.round(2)
+        sprice = params['event_ticket_sprice'+index.to_s].to_f.round(2)
         total = params['event_ticket_total'+index.to_s].to_i
+        pickup = params['event_ticket_pickup'+index.to_s]
+
+        # Opening time
+        open = params['event_ticket_open'+index.to_s]
+        openyear = open['date(1i)']
+        openmonth = open['date(2i)']
+        openday = open['date(3i)']
+        opendate = Time.new(openyear, openmonth, openday)
+
+        # Closing time
+        close = params['event_ticket_close'+index.to_s]
+        closeyear = close['date(1i)']
+        closemonth = close['date(2i)']
+        closeday = close['date(3i)']
+        closedate = Time.new(closeyear, closemonth, closeday)
 
         # Validate data
 
@@ -159,7 +193,10 @@ class EventsController < ApplicationController
           mprice: mprice,
           nprice: nprice,
           sprice: sprice,
-          total: total
+          total: total,
+          pickup: pickup,
+          opendate: opendate,
+          closedate: closedate
         }
 
         # Redirect back to tickets
@@ -226,7 +263,10 @@ class EventsController < ApplicationController
             :nprice => ticket[:nprice],
             :sprice => ticket[:sprice],
             :total => ticket[:total],
-            :remaining => ticket[:total]
+            :remaining => ticket[:total],
+            :pickup => ticket[:pickup],
+            :opendate => ticket[:opendate],
+            :closedate => ticket[:closedate]
           })
 
           if not t.save

@@ -14,6 +14,9 @@
     <p><strong>Non-Member Price: </strong>$<%= ticket[:nprice] %></p>
     <p><strong>Shared Member Price: </strong>$<%= ticket[:sprice] %></p>
     <p><strong>Tickets Remaining: </strong><%= ticket[:remaining] %></p>
+    <p><strong>Pickup: </strong><%= ticket[:pickup] %></p>
+    <p><strong>Open: </strong><%= ticket[:opendate].strftime('%Y/%m/%d') %></p>
+    <p><strong>Close: </strong><%= ticket[:closedate].strftime('%Y/%m/%d') %></p>
   <% end %>
 <% else %>
   <p><strong>No Tickets Created</strong></p>
