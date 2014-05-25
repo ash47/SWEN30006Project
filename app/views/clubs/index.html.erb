@@ -1,26 +1,24 @@
 <h1>Listing clubs</h1>
 
-<% if user_signed_in? %>
-  <% if @awaiting_verification.count > 0 %>
-    <strong>These clubs of yours are not verified yet:</strong>
-    <% @awaiting_verification.each do |club| %>
-      <p><%= club.uni_registration_id %></p>
-    <% end %>
+<% if @awaiting_verification.count > 0 %>
+  <strong>These clubs of yours are not verified yet:</strong>
+  <% @awaiting_verification.each do |club| %>
+    <p><%= club.uni_registration_id %></p>
   <% end %>
+<% end %>
 
-  <% if @memberships.count > 0 %>
-    <strong>Clubs you are a member of:</strong>
-    <ul>
-      <% @memberships.each do |m| %>
-        <% club = m.club %>
-        <% if club %>
-          <li><%= link_to club.name, club_path(m) %></li>
-        <% end %>
+<% if @memberships.count > 0 %>
+  <strong>Clubs you are a member of:</strong>
+  <ul>
+    <% @memberships.each do |m| %>
+      <% club = m.club %>
+      <% if club %>
+        <li><%= link_to club.name, club_path(m) %></li>
       <% end %>
-    </ul>
-  <% else %>
-    <p>You are not a member of any clubs D:</p>
-  <% end %>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You are not a member of any clubs D:</p>
 <% end %>
 
 <table class="table table-striped">
