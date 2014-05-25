@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525042513) do
+ActiveRecord::Schema.define(version: 20140525054622) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",                default: "",    null: false
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20140525042513) do
     t.integer  "duration"
     t.datetime "start_time"
     t.integer  "club_id"
+    t.date     "visibledate"
+    t.string   "location"
   end
 
   create_table "memberships", force: true do |t|
@@ -52,6 +54,9 @@ ActiveRecord::Schema.define(version: 20140525042513) do
     t.decimal "sprice",    precision: 8, scale: 2
     t.integer "total"
     t.integer "remaining"
+    t.string  "pickup"
+    t.date    "opendate"
+    t.date    "closedate"
   end
 
   create_table "users", force: true do |t|

@@ -2,3 +2,6 @@ Add to config/environments/production.rb:
 	config.action_mailer.default_url_options = { host: http://actual.server.name/default/path}
 
 Update User view such that names may be entered on registration.
+
+
+Event creation and ticket creation have no validation, meaning you can enter anything you like, this should probably be fixed.

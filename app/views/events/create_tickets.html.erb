@@ -17,6 +17,15 @@
     <%= label_tag('event_ticket_total'+index.to_s, "Total number of tickets") %><br>
     <%= text_field_tag('event_ticket_total'+index.to_s, ticket[:total]) %>
     <br>
+    <%= label_tag('event_ticket_pickup'+index.to_s, "Ticket Pickup Location") %><br>
+    <%= text_field_tag('event_ticket_pickup'+index.to_s, ticket[:pickup]) %>
+    <br>
+    <%= label_tag('event_ticket_open'+index.to_s, "Ticket Reserve Open Date") %><br>
+    <%= date_select('event_ticket_open'+index.to_s, :date, {selected: ticket[:opendate]}) %>
+    <br>
+    <%= label_tag('event_ticket_close'+index.to_s, "Ticket Reserve Close Date") %><br>
+    <%= date_select('event_ticket_close'+index.to_s, :date, {selected: ticket[:closedate]}) %>
+    <br>
     <%= hidden_field_tag(:index, index) %>
     <%= submit_tag("Remove Ticket", name: 'removeticket', confirm: 'Are you sure you want to remove this ticket?') %>
     <%= submit_tag("Update Ticket", name: 'updateticket') %>
@@ -39,6 +48,15 @@
   <br>
   <%= label_tag(:event_ticket_total, "Total number of tickets") %><br>
   <%= text_field_tag(:event_ticket_total) %>
+  <br>
+  <%= label_tag(:event_ticket_pickup, "Ticket Pickup Location") %><br>
+  <%= text_field_tag(:event_ticket_pickup) %>
+  <br>
+  <%= label_tag(:event_ticket_open, "Ticket Reserve Open Date") %><br>
+  <%= date_select(:event_ticket_open, :date, {selected: Time.now}) %>
+  <br>
+  <%= label_tag(:event_ticket_close, "Ticket Reserve Close Date") %><br>
+  <%= date_select(:event_ticket_close, :date, {selected: @event_time}) %>
   <br>
   <%= submit_tag("Add Ticket", name: 'addticket') %>
   <br><br>
