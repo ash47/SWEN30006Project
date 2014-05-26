@@ -14,7 +14,7 @@
   <ul>
     <% @memberships.each do |m| %>
       <% club = m.club %>
-      <% if club %>
+      <% if club and club.confirmed %>
         <li><%= link_to club.name, club_path(m) %></li>
       <% end %>
     <% end %>

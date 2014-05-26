@@ -5,7 +5,6 @@ class AdminController < ApplicationController
   before_action :get_club, only: [:verify]
 
   def index
-
   end
 
   # Verify a club

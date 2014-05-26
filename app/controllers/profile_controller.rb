@@ -35,5 +35,7 @@ class ProfileController < ApplicationController
       redirect_to profile_path, notice: 'Message was not found'
       return
     end
+
+    redirect_to profile_path, notice: 'Message was not found'
   end
 end
