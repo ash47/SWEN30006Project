@@ -69,6 +69,9 @@
   <p><strong>No Tickets Created</strong></p>
 <% end %>
 
+<% if @event[:imageb] %><%= image_tag @event[:imageb] %><br><br><% end %>
+<% if @event[:imagec] %><%= image_tag @event[:imagec] %><br><br><% end %>
+
 <%= form_tag(event_path(@event), method: "get") do %>
   <%= text_area_tag(:text) %><br>
   <%= submit_tag("Add Comment", name: 'comment') %><br><br>
