@@ -34,7 +34,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 # For uploading images
-gem 'paperclip', '~> 4.1'
+gem 'paperclip', '~> 4.2'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
